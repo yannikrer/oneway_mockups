@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ONEWAY | Worship Collective</title>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@1,900&family=Space+Grotesk:wght@300;700&family=Shadows+Into+Light&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --cyan: #38b3ce;
+            --red: #8c1815;
+            --yellow: #fdea95;
+            --dark: #1a1a1a;
+            --white: #ffffff;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Space Grotesk', sans-serif; 
+            background-color: var(--dark); 
+            color: var(--white);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* GRAIN TEXTUR FÜR DEN FLYER-LOOK */
+        .grain {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://www.transparenttextures.com/patterns/stardust.png');
+            opacity: 0.1; pointer-events: none; z-index: 1000;
+        }
+
+        /* NAVIGATION */
+        nav {
+            position: fixed; top: 0; width: 100%; padding: 30px 60px;
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 900; background: rgba(26,26,26,0.9);
+        }
+        .logo { font-family: 'Exo 2'; font-weight: 900; font-style: italic; font-size: 2rem; }
+        .nav-links a { color: var(--white); text-decoration: none; margin-left: 30px; font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; }
+
+        /* SEKTIONEN */
+        section { min-height: 100vh; padding: 150px 60px; }
+
+        /* HOME: HERO */
+        #home {
+            display: flex; flex-direction: column; justify-content: center;
+            background: linear-gradient(135deg, var(--dark) 0%, #2a2a2a 100%);
+        }
+        h1 {
+            font-family: 'Exo 2'; font-size: clamp(8rem, 25vw, 15rem);
+            line-height: 0.8; color: var(--white);
+            text-shadow: 10px 10px 0 var(--red);
+            margin-bottom: 20px;
+        }
+        .hero-sub { font-family: 'Exo 2'; font-size: 2rem; color: var(--cyan); }
+
+        /* COMING NEXT: POSTER GRID */
+        #comingnext { background: var(--white); color: var(--dark); }
+        .grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px; margin-top: 50px;
+        }
+        .card {
+            border: 2px solid var(--dark); padding: 40px;
+            transition: 0.3s;
+        }
+        .card:hover { background: var(--red); color: var(--white); transform: translateY(-10px); }
+        .card h3 { font-family: 'Exo 2'; font-size: 2rem; margin-bottom: 15px; }
+        .date { font-family: 'Exo 2'; font-size: 1.5rem; color: var(--cyan); margin-bottom: 10px; }
+
+        /* TEAM & VISION */
+        #vision {
+            background: var(--yellow); color: var(--red);
+            text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;
+        }
+        .vision-text {
+            font-family: 'Shadows Into Light', cursive;
+            font-size: clamp(2rem, 5vw, 4rem);
+            max-width: 800px; line-height: 1.4;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="grain"></div>
+
+    <nav>
+        <div class="logo">ONEWAY</div>
+        <div class="nav-links">
+            <a href="#home">Start</a>
+            <a href="#comingnext">Termine</a>
+            <a href="#vision">Vision</a>
+        </div>
+    </nav>
+
+    <section id="home">
+        <h1>ONE<br>WAY</h1>
+        <div class="hero-sub">WORSHIP • INPUT • GEMEINSCHAFT</div>
+    </section>
+
+    <section id="comingnext">
+        <h2 style="font-family:'Exo 2'; font-size: 4rem;">COMING NEXT</h2>
+        <div class="grid">
+            <div class="card">
+                <div class="date">20.04.25</div>
+                <h3>Worship Night Wetzikon</h3>
+                <p>19:00 Uhr | FCGW</p>
+            </div>
+            <div class="card">
+                <div class="date">29.06.25</div>
+                <h3>Summer Special</h3>
+                <p>18:00 Grill | 19:30 Worship</p>
+            </div>
+            <div class="card">
+                <div class="date">30.03.25</div>
+                <h3>Input & Community</h3>
+                <p>19:00 Uhr | Ref. Kirche Gossau</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="vision">
+        <p class="vision-text">
+            "Gasse mitten im übel beleumundeten Hafenviertel? Gerade jetzt, wo er das Ding seines Lebens gedreht hatte... Wir sind der Ort für echte Begegnung mit Gott und Menschen."
+        </p>
+    </section>
+
+</body>
+</html>
