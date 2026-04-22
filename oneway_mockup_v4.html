@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ONEWAY</title>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Syne:wght@400;500;600;700;800&family=Syne+Mono&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black:  #0A0A0A;
+  --off-black: #111111;
+  --grey:   #1C1C1C;
+  --grey-mid: #2E2E2E;
+  --grey-soft: #888;
+  --lime:   #C8F135;
+  --lime-d: #9AC010;
+  --white:  #F5F5F0;
+  --off-white: #EEECE6;
+  --border: rgba(255,255,255,0.1);
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Syne', sans-serif;
+  background: var(--black);
+  color: var(--white);
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* custom cursor */
+#cursor {
+  position: fixed; z-index: 9999; pointer-events: none;
+  width: 12px; height: 12px;
+  background: var(--lime);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width .2s, height .2s, opacity .2s;
+  mix-blend-mode: difference;
+}
+#cursor.big { width: 48px; height: 48px; }
+
+/* ── NAV ─────────────────────────────── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 48px;
+  height: 64px;
+  background: rgba(10,10,10,0.95);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-logo {
+  font-family: 'Anton', sans-serif;
+  font-size: 24px; letter-spacing: 4px;
+  color: var(--white);
+}
+.nav-logo em { color: var(--lime); font-style: normal; }
+
+.nav-links {
+  display: flex; align-items: center; gap: 0;
+}
+.nav-a {
+  background: none; border: none; cursor: none;
+  font-family: 'Syne', sans-serif; font-weight: 600;
+  font-size: 12px; letter-spacing: 2px; text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+  padding: 8px 20px;
+  transition: color .2s;
+  text-decoration: none;
+  display: block;
+}
+.nav-a:hover { color: var(--lime); }
+
+.nav-cta {
+  background: var(--lime); color: var(--black); border: none; cursor: none;
+  font-family: 'Syne', sans-serif; font-weight: 800;
+  font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+  padding: 10px 24px; border-radius: 2px;
+  transition: background .2s, transform .15s;
+  margin-left: 16px;
+}
+.nav-cta:hover { background: var(--white); transform: translateY(-1px); }
+
+/* ── HERO ────────────────────────────── */
+.hero {
+  min-height: 100vh;
+  padding-top: 64px;
+  display: flex; flex-direction: column;
+  position: relative; overflow: hidden;
+}
+
+/* animated grid background */
+.hero-grid {
+  position: absolute; inset: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 80px 80px;
+}
+
+.hero-top {
+  flex: 1; display: flex; align-items: center;
+  padding: 0 48px;
+  position: relative; z-index: 2;
+}
+
+.hero-title-wrap { position: relative; }
+.hero-kicker {
+  font-family: 'Syne Mono', monospace;
+  font-size: 13px; color: var(--lime);
+  letter-spacing: 4px; text-transform: uppercase;
+  margin-bottom: 20px;
+  display: flex; align-items: center; gap: 12px;
+}
+.hero-kicker::before {
+  content: ''; width: 32px; height: 1px; background: var(--lime);
+}
+
+.hero-h1 {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(100px, 18vw, 240px);
+  line-height: 0.85;
+  letter-spacing: -2px;
+  color: var(--white);
+  position: relative;
+}
+.hero-h1 .stroke {
+  -webkit-text-stroke: 2px var(--white);
+  color: transparent;
+}
+.hero-h1 .lime { color: var(--lime); }
+
+/* floating side element */
+.hero-side {
+  position: absolute; right: 48px; top: 50%; transform: translateY(-50%);
+  display: flex; flex-direction: column; gap: 0;
+  border: 1px solid var(--border);
+}
+.hero-side-item {
+  padding: 20px 28px;
+  border-bottom: 1px solid var(--border);
+  min-width: 200px;
+}
+.hero-side-item:last-child { border-bottom: none; }
+.hsi-label {
+  font-family: 'Syne Mono', monospace;
+  font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--grey-soft); margin-bottom: 4px;
+}
+.hsi-val {
+  font-family: 'Syne', sans-serif; font-weight: 700;
+  font-size: 18px; color: var(--white);
+}
+.hsi-val.lime { color: var(--lime); }
+
+/* scrolling ticker */
+.hero-ticker {
+  background: var(--lime); color: var(--black);
+  padding: 14px 0;
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative; z-index: 2;
+}
+.ticker-inner {
+  display: inline-flex; gap: 0;
+  animation: ticker 18s linear infinite;
+}
+@keyframes ticker {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.ticker-item {
+  font-family: 'Anton', sans-serif;
+  font-size: 18px; letter-spacing: 3px; text-transform: uppercase;
+  padding: 0 40px;
+  display: inline-flex; align-items: center; gap: 40px;
+}
+.ticker-item::after {
+  content: '◆'; font-size: 10px; color: rgba(0,0,0,0.4);
+}
+
+/* hero bottom info strip */
+.hero-bottom {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  border-top: 1px solid var(--border);
+  position: relative; z-index: 2;
+}
+.hb-cell {
+  padding: 28px 48px;
+  border-right: 1px solid var(--border);
+}
+.hb-cell:last-child { border-right: none; }
+.hb-label {
+  font-family: 'Syne Mono', monospace;
+  font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--grey-soft); margin-bottom: 6px;
+}
+.hb-val {
+  font-family: 'Syne', sans-serif; font-weight: 700;
+  font-size: 20px; color: var(--white);
+}
+
+/* ── SECTION DIVIDER ─────────────────── */
+.sec-div {
+  height: 2px;
+  background: linear-gradient(90deg, var(--lime) 0%, transparent 100%);
+}
+
+/* ── SECTION SHELL ───────────────────── */
+.section {
+  position: relative;
+}
+
+.sec-num {
+  position: absolute; top: 40px; right: 48px;
+  font-family: 'Anton', sans-serif;
+  font-size: 160px; line-height: 1;
+  color: rgba(255,255,255,0.03);
+  pointer-events: none; z-index: 0;
+  letter-spacing: -5px;
+}
+
+/* ── ABOUT / WILLKOMMEN ──────────────── */
+.about-sec {
+  padding: 120px 48px;
+  background: var(--black);
+}
+.about-inner {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 80px;
+  align-items: start;
+  position: relative; z-index: 1;
+}
+.about-label-col {}
+.about-label-sticky {
+  position: sticky; top: 100px;
+}
+.about-label {
+  font-family: 'Syne Mono', monospace;
+  font-size: 11px; letter-spacing: 4px; text-transform: uppercase;
+  color: var(--lime); margin-bottom: 16px;
+}
+.about-big-label {
+  font-family: 'Anton', sans-serif;
+  font-size: 64px; line-height: .9; color: var(--white);
+  letter-spacing: -1px;
+}
+.about-body-col {}
+.about-headline {
+  font-family: 'Syne', sans-serif; font-weight: 800;
+  font-size: 42px; line-height: 1.05; color: var(--white);
+  margin-bottom: 32px;
+  letter-spacing: -.5px;
+}
+.about-p {
+  font-size: 16px; font-weight: 400;
+  color: rgba(255,255,255,0.5);
+  line-height: 1.85; margin-bottom: 20px;
+  max-width: 580px;
+}
+.about-pillars {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  gap: 1px; margin-top: 56px;
+  background: var(--border);
+}
+.ap {
+  background: var(--black); padding: 32px 28px;
+  transition: background .2s;
+}
+.ap:hover { background: var(--grey); }
+.ap-n {
+  font-family: 'Syne Mono', monospace;
+  font-size: 10px; letter-spacing: 4px;
+  color: var(--lime); margin-bottom: 8px;
+}
+.ap-name {
+  font-family: 'Anton', sans-serif;
+  font-size: 28px; letter-spacing: .5px; color: var(--white);
+  line-height: 1;
+}
+.ap-desc {
+  font-size: 13px; color: rgba(255,255,255,.4);
+  margin-top: 8px; line-height: 1.65;
+}
+
+/* ── GALLERY ─────────────────────────── */
+.gallery-sec {
+  background: var(--off-white); color: var(--black);
+  padding: 100px 48px;
+  clip-path: polygon(0 40px, 100% 0, 100% calc(100% - 40px), 0 100%);
+  margin: -40px 0;
+  position: relative; z-index: 2;
+}
+.gs-head {
+  display: flex; align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 48px;
+}
+.gs-title {
+  font-family: 'Anton', sans-serif;
+  font-size: 72px; letter-spacing: -2px;
+  color: var(--black); line-height: .9;
+}
+.gs-title em { color: var(--lime-d); font-style: normal; }
+.gs-sub {
+  font-family: 'Syne Mono', monospace;
+  font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--grey-soft); margin-bottom: 8px;
+}
+.gal-mosaic {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: 180px 180px 180px;
+  gap: 6px;
+}
+.gm { border-radius: 4px; overflow: hidden; cursor: none; position: relative; }
+.gm:nth-child(1) { grid-column: span 5; grid-row: span 2; }
+.gm:nth-child(2) { grid-column: span 4; }
+.gm:nth-child(3) { grid-column: span 3; }
+.gm:nth-child(4) { grid-column: span 4; }
+.gm:nth-child(5) { grid-column: span 3; }
+.gm:nth-child(6) { grid-column: span 7; }
+.gm:nth-child(7) { grid-column: span 5; }
+
+.gm-inner {
+  width:100%; height:100%;
+  transition: transform .4s cubic-bezier(.25,.46,.45,.94);
+}
+.gm:hover .gm-inner { transform: scale(1.06); }
+.gm1 { background: linear-gradient(145deg, #0a1a0a 0%, #1a4a1a 100%); }
+.gm2 { background: linear-gradient(145deg, #1a1a0a 0%, #4a4a10 100%); }
+.gm3 { background: linear-gradient(145deg, #0a0a1a 0%, #1a1a4a 100%); }
+.gm4 { background: linear-gradient(145deg, #2a1a0a 0%, #6a4a10 100%); }
+.gm5 { background: linear-gradient(145deg, #1a0a0a 0%, #4a1a1a 100%); }
+.gm6 { background: linear-gradient(145deg, #0a1a1a 0%, #1a4a4a 100%); }
+.gm7 { background: linear-gradient(145deg, #1a1a1a 0%, #3a3a3a 100%); }
+
+.gm-label {
+  position: absolute; bottom: 12px; left: 12px;
+  font-family: 'Syne Mono', monospace; font-size: 10px;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--lime); background: rgba(0,0,0,.7);
+  padding: 4px 10px;
+  opacity: 0; transition: opacity .25s;
+}
+.gm:hover .gm-label { opacity: 1; }
+/* big text overlay on first card */
+.gm-big {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Anton', sans-serif; font-size: 80px;
+  color: rgba(255,255,255,.07); letter-spacing: -2px;
+}
+
+/* ── EVENTS ──────────────────────────── */
+.events-sec {
+  padding: 140px 48px 100px;
+  background: var(--black);
+  position: relative; z-index: 1;
+}
+.ev-head-row {
+  display: flex; align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 64px;
+  position: relative; z-index: 1;
+}
+.ev-big-title {
+  font-family: 'Anton', sans-serif;
+  font-size: 96px; line-height: .85; letter-spacing: -3px;
+  color: var(--white);
+}
+.ev-big-title em {
+  -webkit-text-stroke: 2px var(--white);
+  color: transparent; font-style: normal;
+}
+.ev-desc {
+  font-family: 'Caveat', cursive; font-size: 22px;
+  color: rgba(255,255,255,.45);
+  max-width: 220px; text-align: right;
+}
+
+/* Feature card – full width magazine */
+.ev-feature-card {
+  display: grid; grid-template-columns: 60px 1fr 1fr;
+  border: 1px solid var(--border);
+  margin-bottom: 2px;
+  cursor: none;
+  transition: border-color .2s;
+  position: relative; z-index: 1;
+}
+.ev-feature-card:hover { border-color: var(--lime); }
+.efc-side {
+  background: var(--lime);
+  display: flex; align-items: center; justify-content: center;
+}
+.efc-side-text {
+  font-family: 'Anton', sans-serif;
+  font-size: 13px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--black);
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  transform: rotate(180deg);
+}
+.efc-left {
+  padding: 48px 40px;
+  border-right: 1px solid var(--border);
+}
+.efc-date {
+  font-family: 'Syne Mono', monospace;
+  font-size: 12px; letter-spacing: 3px;
+  color: var(--lime); margin-bottom: 16px;
+}
+.efc-title {
+  font-family: 'Anton', sans-serif;
+  font-size: 56px; line-height: .9; letter-spacing: -1px;
+  color: var(--white);
+}
+.efc-right {
+  padding: 48px 40px;
+  display: flex; flex-direction: column; justify-content: space-between;
+}
+.efc-body {
+  font-size: 14px; color: rgba(255,255,255,.45);
+  line-height: 1.8; font-weight: 400;
+}
+.efc-chips { display: flex; gap: 8px; flex-wrap: wrap; }
+.efc-chip {
+  border: 1px solid var(--border);
+  font-family: 'Syne Mono', monospace; font-size: 10px;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: rgba(255,255,255,.5);
+  padding: 5px 12px;
+}
+
+/* Regular event rows */
+.ev-rows { display: flex; flex-direction: column; gap: 2px; position: relative; z-index: 1; }
+.ev-row {
+  display: grid; grid-template-columns: 120px 1fr 160px;
+  border: 1px solid var(--border);
+  cursor: none; transition: border-color .2s, background .2s;
+}
+.ev-row:hover { border-color: var(--lime); background: rgba(200,241,53,0.03); }
+.ev-row-date {
+  padding: 24px 28px;
+  border-right: 1px solid var(--border);
+  display: flex; flex-direction: column; justify-content: center;
+}
+.er-day {
+  font-family: 'Anton', sans-serif; font-size: 48px; color: var(--white);
+  line-height: 1;
+}
+.er-mon {
+  font-family: 'Syne Mono', monospace; font-size: 11px;
+  letter-spacing: 3px; text-transform: uppercase; color: var(--lime);
+}
+.er-yr { font-size: 11px; color: rgba(255,255,255,.25); margin-top: 2px; }
+.ev-row-info {
+  padding: 24px 32px;
+  display: flex; flex-direction: column; justify-content: center;
+}
+.er-title {
+  font-family: 'Anton', sans-serif; font-size: 32px;
+  letter-spacing: -.5px; color: var(--white);
+}
+.er-meta {
+  display: flex; gap: 20px; flex-wrap: wrap; margin-top: 6px;
+}
+.er-meta span {
+  font-family: 'Syne Mono', monospace; font-size: 11px;
+  letter-spacing: 1px; color: rgba(255,255,255,.35);
+  display: flex; align-items: center; gap: 6px;
+}
+.er-meta span::before {
+  content: ''; width: 4px; height: 4px;
+  background: var(--lime); flex-shrink: 0;
+}
+.er-tags { display: flex; gap: 6px; margin-top: 8px; }
+.er-tag {
+  font-family: 'Syne Mono', monospace; font-size: 9px;
+  letter-spacing: 2px; text-transform: uppercase;
+  padding: 3px 10px; border: 1px solid var(--border);
+  color: rgba(255,255,255,.4);
+}
+.er-tag.lime { border-color: rgba(200,241,53,.3); color: var(--lime); }
+.ev-row-action {
+  border-left: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Syne Mono', monospace; font-size: 20px;
+  color: rgba(255,255,255,.2); transition: color .2s;
+}
+.ev-row:hover .ev-row-action { color: var(--lime); }
+
+/* ── TEAM & VISION ───────────────────── */
+.team-sec {
+  background: var(--off-white); color: var(--black);
+  padding: 120px 48px;
+  clip-path: polygon(0 0, 100% 40px, 100% 100%, 0 calc(100% - 40px));
+  margin: -1px 0;
+  position: relative; z-index: 2;
+}
+
+.team-top {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 80px; margin-bottom: 80px;
+  align-items: center;
+}
+.tt-left {}
+.tt-over {
+  font-family: 'Syne Mono', monospace;
+  font-size: 11px; letter-spacing: 4px; text-transform: uppercase;
+  color: var(--lime-d); margin-bottom: 12px;
+}
+.tt-title {
+  font-family: 'Anton', sans-serif;
+  font-size: 80px; line-height: .85; letter-spacing: -2px;
+  color: var(--black);
+}
+.tt-title em {
+  -webkit-text-stroke: 2px var(--black);
+  color: transparent; font-style: normal;
+}
+.tt-right {
+  border-left: 2px solid var(--lime-d);
+  padding-left: 40px;
+}
+.tt-vision {
+  font-family: 'Syne', sans-serif; font-weight: 600;
+  font-size: 22px; line-height: 1.4; color: var(--black);
+  font-style: italic; margin-bottom: 24px;
+}
+.tt-pillars-row {
+  display: flex; flex-direction: column; gap: 0;
+}
+.ttp {
+  display: flex; align-items: center; gap: 16px;
+  padding: 12px 0; border-top: 1px solid rgba(0,0,0,.1);
+}
+.ttp:last-child { border-bottom: 1px solid rgba(0,0,0,.1); }
+.ttp-num {
+  font-family: 'Syne Mono', monospace;
+  font-size: 10px; letter-spacing: 3px;
+  color: var(--lime-d); width: 24px; flex-shrink: 0;
+}
+.ttp-name {
+  font-family: 'Anton', sans-serif; font-size: 22px;
+  color: var(--black); letter-spacing: .5px;
+}
+.ttp-desc {
+  font-size: 13px; color: rgba(0,0,0,.5);
+  margin-left: auto; max-width: 200px; text-align: right;
+}
+
+/* Team grid – magazine cards */
+.team-grid-label {
+  font-family: 'Syne Mono', monospace;
+  font-size: 11px; letter-spacing: 4px; text-transform: uppercase;
+  color: rgba(0,0,0,.4); margin-bottom: 20px;
+}
+.team-cards {
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  gap: 10px;
+}
+.tcard {
+  background: var(--black); border-radius: 4px;
+  overflow: hidden; cursor: none;
+  transition: transform .25s;
+}
+.tcard:hover { transform: translateY(-8px); }
+.tcard-visual {
+  aspect-ratio: 3/4;
+  display: flex; flex-direction: column;
+  align-items: flex-end; justify-content: flex-end;
+  padding: 18px;
+  position: relative;
+}
+.tcard:nth-child(1) .tcard-visual { background: linear-gradient(160deg,#050f05 0%,#1a3a1a 100%); }
+.tcard:nth-child(2) .tcard-visual { background: linear-gradient(160deg,#0f0f05 0%,#3a3a10 100%); }
+.tcard:nth-child(3) .tcard-visual { background: linear-gradient(160deg,#050505 0%,#2a2a2a 100%); }
+.tcard:nth-child(4) .tcard-visual { background: linear-gradient(160deg,#05050f 0%,#1a1a3a 100%); }
+.tcard-init {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%,-60%);
+  font-family: 'Anton', sans-serif; font-size: 80px;
+  color: rgba(255,255,255,.07); letter-spacing: -2px;
+}
+.tcard-name {
+  font-family: 'Anton', sans-serif; font-size: 20px;
+  color: var(--white); letter-spacing: .5px;
+  position: relative; z-index: 1;
+}
+.tcard-role {
+  font-family: 'Caveat', cursive; font-size: 14px;
+  color: var(--lime); margin-top: 2px;
+  position: relative; z-index: 1;
+}
+.tcard-desc {
+  padding: 14px 16px;
+  font-size: 12px; color: rgba(0,0,0,.55); line-height: 1.6;
+  background: var(--off-white);
+}
+
+/* ── KONTAKT ─────────────────────────── */
+.kontakt-sec {
+  padding: 140px 48px 100px;
+  background: var(--black);
+  position: relative; z-index: 1;
+}
+.kt-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  border: 1px solid var(--border);
+  position: relative; z-index: 1;
+}
+.kt-left {
+  padding: 64px 56px;
+  border-right: 1px solid var(--border);
+}
+.kt-right {
+  display: grid; grid-template-rows: 1fr 1fr;
+}
+.kt-r-top {
+  padding: 48px 56px;
+  border-bottom: 1px solid var(--border);
+  background: var(--grey);
+}
+.kt-r-bot {
+  padding: 48px 56px;
+  background: var(--lime);
+}
+
+.kt-heading {
+  font-family: 'Anton', sans-serif;
+  font-size: 80px; line-height: .85; letter-spacing: -2px;
+  margin-bottom: 48px;
+}
+.kt-heading em {
+  -webkit-text-stroke: 2px var(--white);
+  color: transparent; font-style: normal;
+}
+
+/* form */
+.ff { margin-bottom: 20px; }
+.ff label {
+  display: block;
+  font-family: 'Syne Mono', monospace; font-size: 10px;
+  letter-spacing: 3px; text-transform: uppercase;
+  color: var(--lime); margin-bottom: 7px;
+}
+.ff input, .ff textarea {
+  width: 100%; background: transparent;
+  border: none; border-bottom: 1px solid var(--border);
+  color: var(--white); font-family: 'Syne', sans-serif;
+  font-size: 15px; font-weight: 400;
+  padding: 12px 0; outline: none;
+  transition: border-color .2s;
+}
+.ff input:focus, .ff textarea:focus { border-bottom-color: var(--lime); }
+.ff textarea { resize: none; height: 100px; }
+.ff-submit {
+  background: var(--lime); color: var(--black); border: none; cursor: none;
+  font-family: 'Anton', sans-serif; font-size: 16px;
+  letter-spacing: 2px; text-transform: uppercase;
+  padding: 18px 48px; width: 100%; margin-top: 8px;
+  transition: background .2s, transform .15s;
+}
+.ff-submit:hover { background: var(--white); transform: translateY(-2px); }
+
+/* info right-top */
+.kt-info-title {
+  font-family: 'Anton', sans-serif;
+  font-size: 20px; letter-spacing: 1px;
+  color: rgba(255,255,255,.3); margin-bottom: 24px;
+  text-transform: uppercase;
+}
+.ki-row {
+  display: flex; align-items: baseline; justify-content: space-between;
+  padding: 14px 0; border-bottom: 1px solid var(--border);
+}
+.ki-row:first-of-type { border-top: 1px solid var(--border); }
+.ki-lbl {
+  font-family: 'Syne Mono', monospace; font-size: 10px;
+  letter-spacing: 3px; text-transform: uppercase;
+  color: rgba(255,255,255,.3);
+}
+.ki-val {
+  font-family: 'Syne', sans-serif; font-weight: 700;
+  font-size: 16px; color: var(--white);
+}
+
+/* lime box */
+.kt-r-bot .kt-info-title { color: rgba(0,0,0,.4); }
+.kt-r-bot .kt-r-bot-headline {
+  font-family: 'Anton', sans-serif;
+  font-size: 36px; color: var(--black); letter-spacing: -1px;
+  margin-bottom: 24px;
+}
+.soc-row {
+  display: flex; flex-direction: column; gap: 6px;
+}
+.soc-btn {
+  background: var(--black); color: var(--lime); border: none; cursor: none;
+  font-family: 'Syne Mono', monospace; font-size: 11px;
+  letter-spacing: 2px; text-transform: uppercase;
+  padding: 12px 20px; text-align: left;
+  display: flex; justify-content: space-between; align-items: center;
+  transition: background .2s;
+}
+.soc-btn:hover { background: #1a1a1a; }
+.soc-btn::after { content: '→'; }
+
+/* ── FOOTER ──────────────────────────── */
+footer {
+  background: var(--off-black);
+  border-top: 2px solid var(--lime);
+  padding: 32px 48px;
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  align-items: center;
+}
+.f-logo {
+  font-family: 'Anton', sans-serif; font-size: 22px;
+  letter-spacing: 4px; color: var(--white);
+}
+.f-logo em { color: var(--lime); font-style: normal; }
+.f-center {
+  text-align: center;
+  font-family: 'Caveat', cursive; font-size: 17px;
+  color: rgba(255,255,255,.35);
+}
+.f-right {
+  text-align: right;
+  font-family: 'Syne Mono', monospace; font-size: 11px;
+  letter-spacing: 2px; color: rgba(255,255,255,.2);
+}
+
+/* ── ANIMATIONS ──────────────────────── */
+@keyframes fadeUp {
+  from { opacity:0; transform: translateY(30px); }
+  to   { opacity:1; transform: translateY(0); }
+}
+.hero-kicker   { animation: fadeUp .5s ease both .1s; }
+.hero-h1       { animation: fadeUp .6s ease both .2s; }
+.hero-side     { animation: fadeUp .5s ease both .3s; }
+.hero-bottom   { animation: fadeUp .4s ease both .4s; }
+
+/* hover enlarge cursor on interactive */
+a:hover ~ #cursor,
+button:hover ~ #cursor { width: 48px; height: 48px; }
+</style>
+</head>
+<body>
+
+<div id="cursor"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">ONE<em>WAY</em></div>
+  <div class="nav-links">
+    <a class="nav-a" href="#about">Über uns</a>
+    <a class="nav-a" href="#events">Events</a>
+    <a class="nav-a" href="#team">Team</a>
+    <a class="nav-a" href="#kontakt">Kontakt</a>
+    <button class="nav-cta" onclick="document.getElementById('kontakt').scrollIntoView({behavior:'smooth'})">Mitmachen →</button>
+  </div>
+</nav>
+
+<!-- ══ HERO ══════════════════════════════ -->
+<section class="hero">
+  <div class="hero-grid"></div>
+
+  <div class="hero-top">
+    <div class="hero-title-wrap">
+      <div class="hero-kicker">Willkommen bei ONEWAY</div>
+      <h1 class="hero-h1">
+        ONE<br>
+        <span class="stroke">WAY</span>
+      </h1>
+    </div>
+
+    <div class="hero-side">
+      <div class="hero-side-item">
+        <div class="hsi-label">Nächstes Event</div>
+        <div class="hsi-val lime">26.04.2026</div>
+      </div>
+      <div class="hero-side-item">
+        <div class="hsi-label">Uhrzeit</div>
+        <div class="hsi-val">19:00 Uhr</div>
+      </div>
+      <div class="hero-side-item">
+        <div class="hsi-label">Ort</div>
+        <div class="hsi-val">Gossau ZH</div>
+      </div>
+      <div class="hero-side-item">
+        <div class="hsi-label">Eintritt</div>
+        <div class="hsi-val lime">Frei</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-ticker">
+    <div class="ticker-inner">
+      <span class="ticker-item">Worship</span>
+      <span class="ticker-item">Input</span>
+      <span class="ticker-item">Gemeinschaft</span>
+      <span class="ticker-item">Zürich Oberland</span>
+      <span class="ticker-item">26 April 2026</span>
+      <span class="ticker-item">Gossau ZH</span>
+      <span class="ticker-item">Worship</span>
+      <span class="ticker-item">Input</span>
+      <span class="ticker-item">Gemeinschaft</span>
+      <span class="ticker-item">Zürich Oberland</span>
+      <span class="ticker-item">26 April 2026</span>
+      <span class="ticker-item">Gossau ZH</span>
+    </div>
+  </div>
+
+  <div class="hero-bottom">
+    <div class="hb-cell">
+      <div class="hb-label">Was ist ONEWAY?</div>
+      <div class="hb-val">Jugend-Gottesdienst</div>
+    </div>
+    <div class="hb-cell">
+      <div class="hb-label">Drei Säulen</div>
+      <div class="hb-val">Worship · Input · Gemeinschaft</div>
+    </div>
+    <div class="hb-cell">
+      <div class="hb-label">Region</div>
+      <div class="hb-val">Zürich Oberland</div>
+    </div>
+  </div>
+</section>
+
+<div class="sec-div"></div>
+
+<!-- ══ ABOUT ══════════════════════════════ -->
+<section class="about-sec" id="about">
+  <div class="sec-num">01</div>
+  <div class="about-inner">
+    <div class="about-label-col">
+      <div class="about-label-sticky">
+        <div class="about-label">Was wir sind</div>
+        <div class="about-big-label">ÜBER<br>UNS</div>
+      </div>
+    </div>
+    <div class="about-body-col">
+      <div class="about-headline">Ein Abend der Jugendliche für Jesus begeistert.</div>
+      <p class="about-p">ONEWAY ist ein regelmässiges Jugend-Gottesdienstformat in der Region Zürich Oberland. Wir glauben, dass junge Menschen einen Ort brauchen, wo Glaube lebendig wird – durch echten Worship, ehrliche Inputs und eine Gemeinschaft die trägt.</p>
+      <p class="about-p">Ob du Jesus schon kennst oder erst zum ersten Mal reinschaust – alle sind herzlich willkommen. Kein Dresscode, kein Eintritt, keine Erwartungen.</p>
+      <div class="about-pillars">
+        <div class="ap">
+          <div class="ap-n">01 —</div>
+          <div class="ap-name">WORSHIP</div>
+          <div class="ap-desc">Musik, die Raum schafft für echte Anbetung.</div>
+        </div>
+        <div class="ap">
+          <div class="ap-n">02 —</div>
+          <div class="ap-name">INPUT</div>
+          <div class="ap-desc">Lebendige Bibel-Impulse – direkt und relevant.</div>
+        </div>
+        <div class="ap">
+          <div class="ap-n">03 —</div>
+          <div class="ap-name">GEMEINSCHAFT</div>
+          <div class="ap-desc">Echte Verbindungen. Freundschaften, die tragen.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ GALLERY ═════════════════════════════ -->
+<section class="gallery-sec">
+  <div class="gs-head">
+    <div class="gs-title">GAL<em>ERIE</em></div>
+    <div class="gs-sub">Impressionen · 2024 – 2026</div>
+  </div>
+  <div class="gal-mosaic">
+    <div class="gm"><div class="gm-inner gm1"><div class="gm-big">OW</div><div class="gm-label">Worship Night</div></div></div>
+    <div class="gm"><div class="gm-inner gm2"><div class="gm-label">29.3.26</div></div></div>
+    <div class="gm"><div class="gm-inner gm3"><div class="gm-label">Gemeinschaft</div></div></div>
+    <div class="gm"><div class="gm-inner gm4"><div class="gm-label">Big Night</div></div></div>
+    <div class="gm"><div class="gm-inner gm5"><div class="gm-label">1.3.26</div></div></div>
+    <div class="gm"><div class="gm-inner gm6"><div class="gm-label">Gossau ZH</div></div></div>
+    <div class="gm"><div class="gm-inner gm7"><div class="gm-label">Praise</div></div></div>
+  </div>
+</section>
+
+<!-- ══ EVENTS ══════════════════════════════ -->
+<section class="events-sec" id="events">
+  <div class="sec-num">02</div>
+  <div class="ev-head-row">
+    <div class="ev-big-title">KOMMENDE<br><em>EVENTS</em></div>
+    <div class="ev-desc">Sei dabei.<br>Es lohnt sich.</div>
+  </div>
+
+  <div class="ev-feature-card">
+    <div class="efc-side"><div class="efc-side-text">Highlight</div></div>
+    <div class="efc-left">
+      <div class="efc-date">01.02.2026 · 18:00 Essen · 19:00 Start</div>
+      <div class="efc-title">BIG WORSHIP NIGHT</div>
+    </div>
+    <div class="efc-right">
+      <div class="efc-body">Ein besonderer Grossanlass mit ONEWAY, Aktion Kirchen Zürioberland und BRIGHTER.<br><br>FCGW, Guyerzellerstr. 2, 8620 Wetzikon</div>
+      <div class="efc-chips">
+        <span class="efc-chip">Aktion Kirchen</span>
+        <span class="efc-chip">ONEWAY</span>
+        <span class="efc-chip">BRIGHTER</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="ev-rows" style="margin-top:2px">
+    <div class="ev-row">
+      <div class="ev-row-date"><div class="er-day">26</div><div class="er-mon">APR</div><div class="er-yr">2026</div></div>
+      <div class="ev-row-info">
+        <div class="er-title">ONEWAY</div>
+        <div class="er-meta"><span>19:00 Uhr</span><span>Ref. Kirche Gossau ZH</span></div>
+        <div class="er-tags">
+          <span class="er-tag lime">Worship</span>
+          <span class="er-tag">Input</span>
+          <span class="er-tag">Gemeinschaft</span>
+        </div>
+      </div>
+      <div class="ev-row-action">→</div>
+    </div>
+    <div class="ev-row">
+      <div class="ev-row-date"><div class="er-day">29</div><div class="er-mon">MRZ</div><div class="er-yr">2026</div></div>
+      <div class="ev-row-info">
+        <div class="er-title">ONEWAY</div>
+        <div class="er-meta"><span>19:00 Uhr</span><span>FCGW Wetzikon</span></div>
+        <div class="er-tags">
+          <span class="er-tag lime">Worship</span>
+          <span class="er-tag">Input</span>
+          <span class="er-tag">Gemeinschaft</span>
+        </div>
+      </div>
+      <div class="ev-row-action">→</div>
+    </div>
+    <div class="ev-row">
+      <div class="ev-row-date"><div class="er-day">01</div><div class="er-mon">MRZ</div><div class="er-yr">2026</div></div>
+      <div class="ev-row-info">
+        <div class="er-title">ONEWAY</div>
+        <div class="er-meta"><span>19:00 Uhr</span><span>Ref. Kirche Gossau ZH</span></div>
+        <div class="er-tags">
+          <span class="er-tag lime">Worship</span>
+          <span class="er-tag">Input</span>
+          <span class="er-tag">Gemeinschaft</span>
+        </div>
+      </div>
+      <div class="ev-row-action">→</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ TEAM & VISION ═══════════════════════ -->
+<section class="team-sec" id="team">
+  <div class="sec-num" style="color:rgba(0,0,0,.04)">03</div>
+  <div class="team-top">
+    <div class="tt-left">
+      <div class="tt-over">Wer wir sind</div>
+      <h2 class="tt-title">TEAM &amp;<br><em>VISION</em></h2>
+    </div>
+    <div class="tt-right">
+      <div class="tt-vision">„Jugendliche für Jesus begeistern – durch echten Worship, lebendigen Glauben und Gemeinschaft, die trägt."</div>
+      <div class="tt-pillars-row">
+        <div class="ttp">
+          <span class="ttp-num">01</span>
+          <span class="ttp-name">WORSHIP</span>
+          <span class="ttp-desc">Musik die Raum schafft</span>
+        </div>
+        <div class="ttp">
+          <span class="ttp-num">02</span>
+          <span class="ttp-name">INPUT</span>
+          <span class="ttp-desc">Ehrliche Bibel-Impulse</span>
+        </div>
+        <div class="ttp">
+          <span class="ttp-num">03</span>
+          <span class="ttp-name">GEMEINSCHAFT</span>
+          <span class="ttp-desc">Verbindungen die tragen</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="team-grid-label">Das Team —</div>
+  <div class="team-cards">
+    <div class="tcard">
+      <div class="tcard-visual">
+        <div class="tcard-init">JK</div>
+        <div class="tcard-name">Jan K.</div>
+        <div class="tcard-role">Leitung & Vision</div>
+      </div>
+      <div class="tcard-desc">Brennt dafür, dass Jugendliche Jesus kennenlernen und echte Gemeinschaft erleben.</div>
+    </div>
+    <div class="tcard">
+      <div class="tcard-visual">
+        <div class="tcard-init">SM</div>
+        <div class="tcard-name">Sara M.</div>
+        <div class="tcard-role">Worship</div>
+      </div>
+      <div class="tcard-desc">Leiterin des Worship-Teams. Musik ist für sie Gebet und Einladung zugleich.</div>
+    </div>
+    <div class="tcard">
+      <div class="tcard-visual">
+        <div class="tcard-init">LB</div>
+        <div class="tcard-name">Luca B.</div>
+        <div class="tcard-role">Input & Predigt</div>
+      </div>
+      <div class="tcard-desc">Macht Bibeltexte lebendig und relevant – direkt und praxisnah.</div>
+    </div>
+    <div class="tcard">
+      <div class="tcard-visual">
+        <div class="tcard-init">AV</div>
+        <div class="tcard-name">Anna V.</div>
+        <div class="tcard-role">Organisation</div>
+      </div>
+      <div class="tcard-desc">Koordiniert alles im Hintergrund – damit jeder Abend reibungslos läuft.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ KONTAKT ══════════════════════════════ -->
+<section class="kontakt-sec" id="kontakt">
+  <div class="sec-num">04</div>
+  <div class="kt-inner">
+    <div class="kt-left">
+      <h2 class="kt-heading">SAG<br><em>HALLO</em></h2>
+      <div class="ff"><label>Name</label><input type="text" placeholder="Dein Name"></div>
+      <div class="ff"><label>E-Mail</label><input type="email" placeholder="deine@mail.ch"></div>
+      <div class="ff"><label>Nachricht</label><textarea placeholder="Was möchtest du uns sagen?"></textarea></div>
+      <button class="ff-submit">Absenden →</button>
+    </div>
+    <div class="kt-right">
+      <div class="kt-r-top">
+        <div class="kt-info-title">Info</div>
+        <div class="ki-row"><span class="ki-lbl">Ort</span><span class="ki-val">Ref. Kirche Gossau ZH</span></div>
+        <div class="ki-row"><span class="ki-lbl">Zeit</span><span class="ki-val">19:00 Uhr</span></div>
+        <div class="ki-row"><span class="ki-lbl">Eintritt</span><span class="ki-val">Kostenlos</span></div>
+        <div class="ki-row"><span class="ki-lbl">Türen</span><span class="ki-val">Ab 18:30</span></div>
+        <div class="ki-row"><span class="ki-lbl">Für wen</span><span class="ki-val">Alle Jugendliche</span></div>
+      </div>
+      <div class="kt-r-bot">
+        <div class="kt-info-title">Folge uns</div>
+        <div class="kt-r-bot-headline">Bleib<br>informiert.</div>
+        <div class="soc-row">
+          <button class="soc-btn">Instagram</button>
+          <button class="soc-btn">WhatsApp</button>
+          <button class="soc-btn">E-Mail</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="f-logo">ONE<em>WAY</em></div>
+  <div class="f-center">Worship · Input · Gemeinschaft</div>
+  <div class="f-right">© 2026 ONEWAY — Gossau ZH</div>
+</footer>
+
+<script>
+// custom cursor
+const cursor = document.getElementById('cursor');
+document.addEventListener('mousemove', e => {
+  cursor.style.left = e.clientX + 'px';
+  cursor.style.top  = e.clientY + 'px';
+});
+document.querySelectorAll('a, button, .gm, .ev-feature-card, .ev-row, .tcard, .ap').forEach(el => {
+  el.addEventListener('mouseenter', () => cursor.classList.add('big'));
+  el.addEventListener('mouseleave', () => cursor.classList.remove('big'));
+});
+</script>
+</body>
+</html>

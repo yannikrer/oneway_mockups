@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ONEWAY – Worship · Input · Gemeinschaft</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300&family=Caveat:wght@500;700&family=Oswald:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --night:     #0D1117;
+  --night-mid: #161C26;
+  --night-soft:#1F2937;
+  --apricot:   #F4845F;
+  --apricot-l: #F9B49A;
+  --apricot-p: #FDE8DF;
+  --sky:       #A8C5DA;
+  --sky-deep:  #4A7FA0;
+  --cream:     #F8F4EE;
+  --mist:      #E8E0D4;
+  --ink:       #1A1612;
+  --ink-soft:  #6B5F52;
+  --white:     #FFFFFF;
+
+  --sidebar-w: 240px;
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+
+body {
+  font-family:'DM Sans', sans-serif;
+  background: var(--cream);
+  color: var(--ink);
+  display: flex;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ═══════════════════════════════════════
+   SIDEBAR
+═══════════════════════════════════════ */
+#sidebar {
+  width: var(--sidebar-w);
+  min-height: 100vh;
+  position: fixed;
+  top: 0; left: 0; bottom: 0;
+  background: var(--night);
+  display: flex;
+  flex-direction: column;
+  z-index: 200;
+  border-right: 1px solid rgba(255,255,255,0.06);
+}
+
+.sb-top {
+  padding: 40px 32px 0;
+}
+.sb-logo {
+  font-family: 'DM Serif Display', serif;
+  font-size: 28px;
+  color: var(--white);
+  letter-spacing: 1px;
+  line-height: 1;
+}
+.sb-logo span { color: var(--apricot); display:block; font-style:italic; }
+.sb-tagline {
+  font-family: 'Caveat', cursive;
+  font-size: 13px;
+  color: rgba(255,255,255,.35);
+  margin-top: 8px;
+  letter-spacing: .3px;
+}
+
+.sb-nav {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 24px;
+  gap: 4px;
+}
+.sb-link {
+  background: none; border: none; cursor: pointer;
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 16px;
+  border-radius: 6px;
+  text-align: left;
+  transition: background .2s;
+  position: relative;
+}
+.sb-link:hover { background: rgba(255,255,255,.05); }
+.sb-link.active { background: rgba(244,132,95,.12); }
+.sb-link .sb-num {
+  font-family: 'Oswald', sans-serif;
+  font-size: 11px; font-weight: 300;
+  color: rgba(255,255,255,.25);
+  letter-spacing: 2px;
+  width: 20px;
+  flex-shrink: 0;
+}
+.sb-link.active .sb-num { color: var(--apricot); }
+.sb-link .sb-name {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px; font-weight: 500;
+  color: rgba(255,255,255,.45);
+  letter-spacing: .3px;
+}
+.sb-link.active .sb-name { color: var(--white); }
+.sb-link .sb-bar {
+  position: absolute; left: 0; top: 50%;
+  transform: translateY(-50%);
+  width: 3px; height: 0;
+  background: var(--apricot);
+  border-radius: 0 2px 2px 0;
+  transition: height .2s;
+}
+.sb-link.active .sb-bar { height: 28px; }
+
+.sb-bottom {
+  padding: 32px;
+  border-top: 1px solid rgba(255,255,255,.06);
+}
+.sb-event-pill {
+  background: rgba(244,132,95,.15);
+  border: 1px solid rgba(244,132,95,.3);
+  border-radius: 6px;
+  padding: 14px 16px;
+}
+.sep-label {
+  font-family: 'Oswald', sans-serif;
+  font-size: 9px; font-weight: 300;
+  letter-spacing: 3px; text-transform: uppercase;
+  color: var(--apricot-l);
+  margin-bottom: 4px;
+}
+.sep-date {
+  font-family: 'DM Serif Display', serif;
+  font-size: 18px;
+  color: var(--white);
+  line-height: 1.1;
+}
+.sep-loc {
+  font-size: 11px;
+  color: rgba(255,255,255,.4);
+  margin-top: 3px;
+}
+
+/* ═══════════════════════════════════════
+   MAIN CONTENT SHELL
+═══════════════════════════════════════ */
+#main {
+  margin-left: var(--sidebar-w);
+  flex: 1;
+  min-height: 100vh;
+}
+
+.page { display: none; }
+.page.active { display: block; }
+
+/* ═══════════════════════════════════════
+   HOME PAGE
+═══════════════════════════════════════ */
+
+/* HERO: full bleed, overlapping type */
+.home-hero {
+  min-height: 100vh;
+  background: var(--night-mid);
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+/* Left panel */
+.hh-left {
+  position: relative; z-index: 2;
+  display: flex; flex-direction: column;
+  justify-content: flex-end;
+  padding: 80px 56px;
+  background: var(--night-mid);
+}
+.hh-overline {
+  font-family: 'Oswald', sans-serif;
+  font-size: 11px; font-weight: 300;
+  letter-spacing: 5px; text-transform: uppercase;
+  color: var(--apricot);
+  margin-bottom: 20px;
+}
+.hh-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(64px, 9vw, 120px);
+  line-height: .9;
+  color: var(--white);
+}
+.hh-title .italic { font-style: italic; color: var(--apricot); }
+.hh-body {
+  font-size: 15px; font-weight: 300;
+  color: rgba(255,255,255,.5);
+  line-height: 1.8;
+  max-width: 380px;
+  margin-top: 28px;
+}
+.hh-cta { display: flex; gap: 12px; margin-top: 36px; flex-wrap: wrap; }
+.btn {
+  font-family: 'Oswald', sans-serif;
+  font-size: 13px; font-weight: 400;
+  letter-spacing: 2.5px; text-transform: uppercase;
+  padding: 14px 36px; border: none; cursor: pointer; border-radius: 3px;
+  transition: transform .15s, opacity .15s;
+}
+.btn:hover { transform: translateY(-2px); opacity: .88; }
+.btn-apricot { background: var(--apricot); color: var(--white); }
+.btn-outline { background: transparent; color: rgba(255,255,255,.7);
+               border: 1px solid rgba(255,255,255,.22); }
+.btn-outline:hover { border-color: var(--apricot-l); color: var(--apricot-l); }
+
+/* Right panel — stacked info blocks */
+.hh-right {
+  position: relative; z-index: 2;
+  display: flex; flex-direction: column;
+  border-left: 1px solid rgba(255,255,255,.07);
+}
+.hh-block {
+  flex: 1;
+  padding: 48px 48px;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+  display: flex; flex-direction: column; justify-content: flex-end;
+  position: relative; overflow: hidden;
+  cursor: pointer;
+  transition: background .25s;
+}
+.hh-block:hover { background: rgba(255,255,255,.02); }
+.hh-block-num {
+  font-family: 'DM Serif Display', serif; font-style: italic;
+  font-size: 80px; color: rgba(255,255,255,.05);
+  position: absolute; top: 16px; right: 20px;
+  line-height: 1; pointer-events: none;
+}
+.hh-block-label {
+  font-family: 'Oswald', sans-serif;
+  font-size: 10px; font-weight: 300; letter-spacing: 4px; text-transform: uppercase;
+  color: var(--apricot); margin-bottom: 8px;
+}
+.hh-block-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 34px; color: var(--white); line-height: 1;
+}
+.hh-block-desc {
+  font-size: 13px; font-weight: 300;
+  color: rgba(255,255,255,.4);
+  margin-top: 8px; line-height: 1.65;
+}
+/* accent bar on hover */
+.hh-block::after {
+  content: '';
+  position: absolute; bottom: 0; left: 0; right: 0;
+  height: 2px; background: var(--apricot);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform .3s;
+}
+.hh-block:hover::after { transform: scaleX(1); }
+
+/* Gallery strip — horizontal scroll feel */
+.gal-strip {
+  padding: 72px 56px;
+  background: var(--cream);
+}
+.gs-header {
+  display: flex; align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 36px;
+}
+.gs-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 44px; color: var(--ink);
+}
+.gs-title em { font-style: italic; color: var(--apricot); }
+.gs-count {
+  font-family: 'Oswald', sans-serif; font-size: 12px; font-weight: 300;
+  letter-spacing: 3px; text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.gs-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  height: 300px;
+}
+.gs-card {
+  border-radius: 6px; overflow: hidden; cursor: pointer;
+  position: relative;
+  transition: transform .3s;
+}
+.gs-card:nth-child(1) { grid-column: span 2; }
+.gs-card:nth-child(4) { grid-column: span 2; }
+.gs-card:hover { transform: scale(1.02); z-index: 2; }
+.gs-inner {
+  width: 100%; height: 100%;
+  display: flex; align-items: flex-end; padding: 16px;
+}
+.gsi1 { background: linear-gradient(160deg, var(--night) 0%, var(--sky-deep) 100%); }
+.gsi2 { background: linear-gradient(160deg, var(--apricot) 0%, #c05030 100%); }
+.gsi3 { background: linear-gradient(160deg, #2a3a50 0%, var(--sky-deep) 100%); }
+.gsi4 { background: linear-gradient(160deg, var(--night-soft) 0%, #3a2a1a 100%); }
+.gsi5 { background: linear-gradient(160deg, #3a4a2a 0%, #7a9a5a 100%); }
+.gs-tag {
+  font-family: 'Oswald', sans-serif; font-weight: 300;
+  font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+  color: rgba(255,255,255,.8); background: rgba(0,0,0,.45);
+  padding: 4px 10px; border-radius: 2px;
+  opacity: 0; transition: opacity .25s;
+}
+.gs-card:hover .gs-tag { opacity: 1; }
+
+/* Manifesto band */
+.manifesto {
+  background: var(--apricot);
+  padding: 64px 56px;
+  position: relative; overflow: hidden;
+}
+.manifesto-ghost {
+  position: absolute; right: -20px; top: 50%; transform: translateY(-50%);
+  font-family: 'DM Serif Display', serif; font-style: italic;
+  font-size: 200px; color: rgba(255,255,255,.08);
+  line-height: 1; pointer-events: none; white-space: nowrap;
+}
+.manifesto-text {
+  font-family: 'DM Serif Display', serif; font-style: italic;
+  font-size: clamp(28px, 4vw, 52px);
+  color: var(--white);
+  max-width: 780px;
+  line-height: 1.2;
+  position: relative; z-index: 1;
+}
+.manifesto-sub {
+  font-family: 'Oswald', sans-serif; font-weight: 300;
+  font-size: 11px; letter-spacing: 5px; text-transform: uppercase;
+  color: rgba(255,255,255,.65); margin-top: 20px;
+  position: relative; z-index: 1;
+}
+
+/* ═══════════════════════════════════════
+   EVENTS PAGE
+═══════════════════════════════════════ */
+#events { background: var(--cream); }
+
+/* Asymmetric header */
+.ev-header {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  min-height: 50vh;
+  background: var(--night);
+}
+.evh-left {
+  padding: 80px 56px;
+  display: flex; flex-direction: column; justify-content: flex-end;
+}
+.evh-over {
+  font-family: 'Oswald', sans-serif;
+  font-size: 11px; font-weight: 300; letter-spacing: 5px; text-transform: uppercase;
+  color: var(--apricot); margin-bottom: 16px;
+}
+.evh-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 80px; line-height: .88; color: var(--white);
+}
+.evh-title i { color: var(--apricot-l); }
+.evh-right {
+  padding: 80px 48px;
+  border-left: 1px solid rgba(255,255,255,.07);
+  display: flex; flex-direction: column; justify-content: center;
+}
+.evh-stat {
+  margin-bottom: 32px;
+}
+.evh-stat-num {
+  font-family: 'DM Serif Display', serif;
+  font-size: 56px; color: var(--apricot); line-height: 1;
+}
+.evh-stat-label {
+  font-family: 'Oswald', sans-serif; font-size: 11px; font-weight: 300;
+  letter-spacing: 3px; text-transform: uppercase;
+  color: rgba(255,255,255,.4);
+  margin-top: 4px;
+}
+
+/* Events list area */
+.ev-content {
+  padding: 64px 56px;
+}
+
+/* Feature event — magazine cover style */
+.ev-feature {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: var(--night-mid);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 24px;
+  cursor: pointer;
+  transition: transform .2s, box-shadow .2s;
+  box-shadow: 0 8px 40px rgba(13,17,23,.15);
+}
+.ev-feature:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 60px rgba(13,17,23,.22);
+}
+.evf-visual {
+  background: linear-gradient(145deg, var(--sky-deep) 0%, var(--night) 100%);
+  min-height: 320px;
+  position: relative;
+  display: flex; align-items: center; justify-content: center;
+}
+.evf-ghost {
+  font-family: 'DM Serif Display', serif; font-style: italic;
+  font-size: 120px; color: rgba(255,255,255,.07);
+  text-align: center;
+}
+.evf-badge {
+  position: absolute; top: 24px; left: 24px;
+  background: var(--apricot); color: var(--white);
+  font-family: 'Oswald', sans-serif; font-size: 10px; font-weight: 400;
+  letter-spacing: 3px; text-transform: uppercase;
+  padding: 6px 14px; border-radius: 2px;
+}
+.evf-info {
+  padding: 48px 44px;
+  display: flex; flex-direction: column; justify-content: center;
+}
+.evf-date {
+  font-family: 'DM Serif Display', serif; font-style: italic;
+  font-size: 20px; color: var(--apricot-l); margin-bottom: 16px;
+}
+.evf-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 52px; line-height: .92; color: var(--white);
+}
+.evf-body {
+  font-size: 14px; font-weight: 300; color: rgba(255,255,255,.5);
+  margin-top: 16px; line-height: 1.7;
+}
+.evf-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 20px; }
+.evf-chip {
+  background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.14);
+  border-radius: 2px; padding: 4px 12px;
+  font-family: 'Oswald', sans-serif; font-size: 10px; font-weight: 300;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: rgba(255,255,255,.65);
+}
+
+/* Event list rows — horizontal magazine style */
+.ev-list {
+  display: flex; flex-direction: column; gap: 2px;
+}
+.ev-item {
+  display: grid;
+  grid-template-columns: 90px 1fr auto;
+  background: var(--white);
+  border-radius: 6px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: box-shadow .2s, transform .15s;
+  box-shadow: 0 1px 8px rgba(26,22,18,.06);
+}
+.ev-item:hover {
+  transform: translateX(6px);
+  box-shadow: 0 4px 24px rgba(26,22,18,.1);
+}
+.evi-date {
+  background: var(--night-soft);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 20px 8px;
+}
+.ev-item.c2 .evi-date { background: var(--sky-deep); }
+.ev-item.c3 .evi-date { background: #5a7a3a; }
+.evi-d { font-family: 'DM Serif Display', serif; font-size: 40px; color: var(--white); line-height: 1; }
+.evi-m { font-family: 'Oswald', sans-serif; font-size: 11px; font-weight: 300;
+         letter-spacing: 2px; text-transform: uppercase; color: var(--apricot-l); }
+.evi-y { font-size: 10px; color: rgba(255,255,255,.35); margin-top: 2px; }
+.evi-info { padding: 20px 28px; display: flex; flex-direction: column; justify-content: center; }
+.evi-title {
+  font-family: 'DM Serif Display', serif; font-size: 28px;
+  color: var(--ink); letter-spacing: -.3px;
+}
+.evi-meta { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 5px; }
+.evi-meta span {
+  font-size: 12px; color: var(--ink-soft); font-weight: 300;
+  display: flex; align-items: center; gap: 5px;
+}
+.evi-meta span::before {
+  content: ''; width: 4px; height: 4px; border-radius: 50%;
+  background: var(--apricot); flex-shrink: 0;
+}
+.evi-tags { display: flex; gap: 6px; margin-top: 8px; }
+.eit {
+  font-family: 'Oswald', sans-serif; font-size: 9px; font-weight: 300;
+  letter-spacing: 2px; text-transform: uppercase;
+  padding: 3px 10px; border-radius: 2px;
+}
+.eit-w { background: rgba(74,127,160,.1); color: var(--sky-deep); }
+.eit-i { background: rgba(244,132,95,.1); color: #c05030; }
+.eit-g { background: rgba(26,22,18,.07); color: var(--ink-soft); }
+.evi-arr {
+  padding: 20px 24px; display: flex; align-items: center; justify-content: center;
+}
+.ev-arrow {
+  width: 38px; height: 38px; border-radius: 50%;
+  border: 1.5px solid var(--mist);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px; color: var(--ink-soft);
+  transition: all .2s;
+}
+.ev-item:hover .ev-arrow {
+  border-color: var(--apricot); background: var(--apricot); color: var(--white);
+}
+
+/* ═══════════════════════════════════════
+   TEAM & VISION PAGE
+═══════════════════════════════════════ */
+#team { background: var(--cream); }
+
+/* Big type header — diagonal layout */
+.tm-header {
+  background: var(--cream);
+  padding: 80px 56px 56px;
+  position: relative; overflow: hidden;
+  border-bottom: 1px solid var(--mist);
+}
+.tm-header::before {
+  content: '';
+  position: absolute; top: 0; right: 0; bottom: 0; width: 40%;
+  background: var(--apricot-p);
+  clip-path: polygon(15% 0%, 100% 0%, 100% 100%, 0% 100%);
+}
+.tm-header-inner { position: relative; z-index: 1; }
+.tm-over {
+  font-family: 'Oswald', sans-serif; font-size: 11px; font-weight: 300;
+  letter-spacing: 5px; text-transform: uppercase;
+  color: var(--apricot); margin-bottom: 16px;
+}
+.tm-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 80px; line-height: .88; color: var(--ink);
+}
+.tm-title i { font-style: italic; color: var(--sky-deep); }
+.tm-kicker {
+  font-family: 'Caveat', cursive; font-size: 20px;
+  color: var(--ink-soft); margin-top: 14px;
+}
+
+/* Vision — alternating blocks */
+.vision-area {
+  background: var(--night);
+  padding: 80px 56px;
+}
+.va-label {
+  font-family: 'Oswald', sans-serif; font-size: 10px; font-weight: 300;
+  letter-spacing: 5px; text-transform: uppercase;
+  color: var(--apricot); margin-bottom: 24px;
+}
+.va-quote {
+  font-family: 'DM Serif Display', serif; font-style: italic;
+  font-size: clamp(28px, 4vw, 48px); line-height: 1.15;
+  color: var(--white); max-width: 700px; margin-bottom: 64px;
+}
+.va-blocks {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: rgba(255,255,255,.06);
+}
+.va-block {
+  background: var(--night);
+  padding: 44px 36px;
+  border-top: 2px solid transparent;
+  transition: border-color .2s, background .2s;
+  cursor: default;
+}
+.va-block:hover { border-color: var(--apricot); background: rgba(255,255,255,.02); }
+.va-block-i {
+  font-family: 'DM Serif Display', serif; font-style: italic;
+  font-size: 60px; color: rgba(255,255,255,.07); line-height: 1;
+}
+.va-block-name {
+  font-family: 'DM Serif Display', serif;
+  font-size: 32px; color: var(--apricot-l); margin-top: -8px;
+}
+.va-block-desc {
+  font-size: 14px; font-weight: 300;
+  color: rgba(255,255,255,.45);
+  margin-top: 10px; line-height: 1.7;
+}
+
+/* Team — asymmetric bento grid */
+.team-area { padding: 80px 56px; background: var(--cream); }
+.ta-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 48px; color: var(--ink); margin-bottom: 44px;
+}
+.ta-title em { font-style: italic; color: var(--sky-deep); }
+.ta-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: 240px 240px;
+  gap: 12px;
+}
+.ta-card {
+  border-radius: 10px; overflow: hidden;
+  position: relative; display: flex; align-items: flex-end; padding: 20px;
+  cursor: default;
+  box-shadow: 0 3px 16px rgba(26,22,18,.1);
+  transition: transform .3s;
+}
+.ta-card:hover { transform: translateY(-6px); }
+.ta-card:nth-child(1) { grid-column: span 5; }
+.ta-card:nth-child(2) { grid-column: span 4; }
+.ta-card:nth-child(3) { grid-column: span 3; }
+.ta-card:nth-child(4) { grid-column: span 3; grid-row: 2; }
+.ta-card:nth-child(5) { grid-column: span 5; grid-row: 2; }
+.ta-card:nth-child(6) { grid-column: span 4; grid-row: 2; }
+
+.tc1 { background: linear-gradient(160deg,var(--night) 0%,var(--sky-deep) 100%); }
+.tc2 { background: linear-gradient(160deg,var(--sky-deep) 0%,#2a5a7a 100%); }
+.tc3 { background: linear-gradient(160deg,var(--apricot) 0%,#8a3010 100%); }
+.tc4 { background: linear-gradient(160deg,var(--night-soft) 0%,var(--night) 100%); }
+.tc5 { background: linear-gradient(160deg,#3a5a2a 0%,#7aaa5a 100%); }
+.tc6 { background: linear-gradient(160deg,var(--night-mid) 0%,#3a3020 100%); }
+
+.tc-init {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%,-60%);
+  font-family: 'DM Serif Display', serif; font-style: italic;
+  font-size: 72px; color: rgba(255,255,255,.1);
+}
+.tc-info { position: relative; z-index: 1; }
+.tc-name {
+  font-family: 'DM Serif Display', serif;
+  font-size: 22px; color: var(--white); line-height: 1;
+}
+.tc-role {
+  font-family: 'Caveat', cursive; font-size: 14px;
+  color: var(--apricot-l); margin-top: 2px;
+}
+.tc-desc {
+  font-size: 12px; font-weight: 300;
+  color: var(--ink-soft); margin-top: 10px; line-height: 1.6;
+}
+
+/* ═══════════════════════════════════════
+   KONTAKT PAGE
+═══════════════════════════════════════ */
+#kontakt { background: var(--cream); }
+
+/* Full-width header bar */
+.kt-bar {
+  background: var(--apricot);
+  padding: 80px 56px 64px;
+  position: relative; overflow: hidden;
+}
+.kt-bar-ghost {
+  position: absolute; right: -20px; bottom: -60px;
+  font-family: 'DM Serif Display', serif; font-style: italic;
+  font-size: 260px; color: rgba(255,255,255,.08); line-height: 1; pointer-events: none;
+}
+.kt-bar h1 {
+  font-family: 'DM Serif Display', serif; font-style: italic;
+  font-size: 88px; line-height: .85; color: var(--white);
+  position: relative; z-index: 1;
+}
+.kt-bar h1 span { font-style: normal; display: block; }
+.kt-bar p {
+  font-family: 'Caveat', cursive; font-size: 22px;
+  color: rgba(255,255,255,.7); margin-top: 16px;
+  position: relative; z-index: 1;
+}
+
+/* 3-column layout for contact */
+.kt-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  min-height: 60vh;
+}
+.kt-col1 { padding: 64px 48px; background: var(--white); }
+.kt-col2 { padding: 64px 48px; background: var(--cream); border-left: 1px solid var(--mist); }
+.kt-col3 { padding: 64px 48px; background: var(--night); border-left: none; }
+
+.kt-col-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 32px; color: var(--ink); margin-bottom: 32px;
+}
+.kt-col-title em { color: var(--apricot); font-style: italic; }
+.kt-col3 .kt-col-title { color: var(--white); }
+
+/* form */
+.f-field { margin-bottom: 22px; }
+.f-field label {
+  display: block;
+  font-family: 'Oswald', sans-serif; font-size: 10px; font-weight: 300;
+  letter-spacing: 3px; text-transform: uppercase;
+  color: var(--apricot); margin-bottom: 7px;
+}
+.f-field input, .f-field textarea {
+  width: 100%; background: var(--cream);
+  border: 1.5px solid var(--mist);
+  color: var(--ink); font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 300;
+  padding: 13px 16px; border-radius: 4px; outline: none;
+  transition: border-color .2s;
+}
+.f-field input:focus, .f-field textarea:focus { border-color: var(--apricot); }
+.f-field textarea { resize: none; height: 120px; }
+.f-submit {
+  width: 100%; background: var(--apricot); color: var(--white); border: none;
+  font-family: 'Oswald', sans-serif; font-size: 13px; font-weight: 400;
+  letter-spacing: 3px; text-transform: uppercase;
+  padding: 16px 36px; cursor: pointer; border-radius: 3px;
+  transition: background .2s, transform .15s;
+}
+.f-submit:hover { background: var(--night); transform: translateY(-2px); }
+
+/* info blocks */
+.ki-b { margin-bottom: 36px; }
+.ki-b-label {
+  font-family: 'Oswald', sans-serif; font-size: 9px; font-weight: 300;
+  letter-spacing: 4px; text-transform: uppercase;
+  color: var(--ink-soft); margin-bottom: 6px;
+}
+.ki-b-val {
+  font-family: 'DM Serif Display', serif; font-size: 24px; color: var(--ink);
+}
+.ki-b-sub { font-size: 12px; color: var(--ink-soft); font-weight: 300; margin-top: 3px; }
+
+/* dark info col */
+.ki-d { margin-bottom: 32px; }
+.ki-d-label {
+  font-family: 'Oswald', sans-serif; font-size: 9px; font-weight: 300;
+  letter-spacing: 4px; text-transform: uppercase;
+  color: var(--apricot); margin-bottom: 6px;
+}
+.ki-d-val {
+  font-family: 'DM Serif Display', serif; font-size: 24px; color: var(--white);
+}
+.ki-d-sub { font-size: 12px; color: rgba(255,255,255,.4); font-weight: 300; margin-top: 3px; font-style: italic; }
+.ki-socials { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
+.soc {
+  background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1);
+  color: rgba(255,255,255,.7); font-family: 'Oswald', sans-serif;
+  font-size: 11px; font-weight: 300; letter-spacing: 2px; text-transform: uppercase;
+  padding: 11px 20px; border-radius: 3px; cursor: pointer; text-align: left;
+  transition: background .2s, border-color .2s;
+  display: flex; align-items: center; gap: 12px;
+}
+.soc::before {
+  content: '→'; font-size: 14px; color: var(--apricot); transition: transform .2s;
+}
+.soc:hover { background: var(--apricot); border-color: var(--apricot); color: var(--white); }
+.soc:hover::before { transform: translateX(3px); color: var(--white); }
+
+/* footer */
+footer {
+  background: var(--night);
+  padding: 24px 56px;
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+  border-top: 1px solid rgba(244,132,95,.25);
+  margin-left: 0;
+}
+.f-logo {
+  font-family: 'DM Serif Display', serif; font-style: italic;
+  font-size: 20px; color: var(--white);
+}
+.f-logo em { color: var(--apricot); font-style: normal; }
+.f-tag { font-family: 'Caveat', cursive; font-size: 16px; color: rgba(255,255,255,.4); }
+.f-copy { font-size: 12px; color: rgba(255,255,255,.22); }
+
+/* ── fade-in ── */
+@keyframes up {
+  from { opacity:0; transform:translateY(22px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+.page.active .hh-overline  { animation:up .4s ease both .05s; }
+.page.active .hh-title     { animation:up .5s ease both .1s; }
+.page.active .hh-body      { animation:up .4s ease both .2s; }
+.page.active .hh-cta       { animation:up .4s ease both .28s; }
+</style>
+</head>
+<body>
+
+<!-- ══ SIDEBAR ═══════════════════════════════ -->
+<aside id="sidebar">
+  <div class="sb-top">
+    <div class="sb-logo">ONE<span>WAY</span></div>
+    <div class="sb-tagline">Worship · Input · Gemeinschaft</div>
+  </div>
+
+  <nav class="sb-nav">
+    <button class="sb-link active" onclick="go('home')">
+      <div class="sb-bar"></div>
+      <span class="sb-num">01</span>
+      <span class="sb-name">Home</span>
+    </button>
+    <button class="sb-link" onclick="go('events')">
+      <div class="sb-bar"></div>
+      <span class="sb-num">02</span>
+      <span class="sb-name">Events</span>
+    </button>
+    <button class="sb-link" onclick="go('team')">
+      <div class="sb-bar"></div>
+      <span class="sb-num">03</span>
+      <span class="sb-name">Team &amp; Vision</span>
+    </button>
+    <button class="sb-link" onclick="go('kontakt')">
+      <div class="sb-bar"></div>
+      <span class="sb-num">04</span>
+      <span class="sb-name">Kontakt</span>
+    </button>
+  </nav>
+
+  <div class="sb-bottom">
+    <div class="sb-event-pill">
+      <div class="sep-label">Nächstes Event</div>
+      <div class="sep-date">26. April<br>2026</div>
+      <div class="sep-loc">19:00 · Gossau ZH</div>
+    </div>
+  </div>
+</aside>
+
+<!-- ══ MAIN ══════════════════════════════════ -->
+<div id="main">
+
+  <!-- HOME -->
+  <div id="home" class="page active">
+    <section class="home-hero">
+      <div class="hh-left">
+        <div class="hh-overline">Willkommen bei</div>
+        <h1 class="hh-title">
+          ONE<br><span class="italic">WAY</span>
+        </h1>
+        <p class="hh-body">
+          Ein Abend der bewegt. Regelmässig treffen wir uns in der Region Zürich Oberland – für Worship, lebendige Inputs und echte Gemeinschaft.
+        </p>
+        <div class="hh-cta">
+          <button class="btn btn-apricot" onclick="go('events')">Events entdecken</button>
+          <button class="btn btn-outline" onclick="go('team')">Über uns</button>
+        </div>
+      </div>
+      <div class="hh-right">
+        <div class="hh-block">
+          <div class="hh-block-num">I</div>
+          <div class="hh-block-label">Jeder Abend</div>
+          <div class="hh-block-title">Worship</div>
+          <div class="hh-block-desc">Musik, die den Raum öffnet für echte Anbetung.</div>
+        </div>
+        <div class="hh-block">
+          <div class="hh-block-num">II</div>
+          <div class="hh-block-label">Jeder Abend</div>
+          <div class="hh-block-title">Input</div>
+          <div class="hh-block-desc">Lebendige Impulse aus der Bibel – ehrlich und relevant.</div>
+        </div>
+        <div class="hh-block">
+          <div class="hh-block-num">III</div>
+          <div class="hh-block-label">Jeder Abend</div>
+          <div class="hh-block-title">Gemeinschaft</div>
+          <div class="hh-block-desc">Hier darfst du du sein. Echte Verbindungen entstehen hier.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="gal-strip">
+      <div class="gs-header">
+        <div class="gs-title">Impressionen <em>&amp; Galerie</em></div>
+        <div class="gs-count">05 Fotos</div>
+      </div>
+      <div class="gs-grid">
+        <div class="gs-card"><div class="gs-inner gsi1"><span class="gs-tag">Worship Night</span></div></div>
+        <div class="gs-card"><div class="gs-inner gsi2"><span class="gs-tag">29.3.26</span></div></div>
+        <div class="gs-card"><div class="gs-inner gsi3"><span class="gs-tag">Gemeinsam</span></div></div>
+        <div class="gs-card"><div class="gs-inner gsi4"><span class="gs-tag">Big Worship</span></div></div>
+        <div class="gs-card"><div class="gs-inner gsi5"><span class="gs-tag">Gossau ZH</span></div></div>
+      </div>
+    </section>
+
+    <div class="manifesto">
+      <div class="manifesto-ghost">ONEWAY</div>
+      <div class="manifesto-text">
+        „Jugendliche für Jesus begeistern – durch echten Worship, lebendigen Glauben und Gemeinschaft, die trägt."
+      </div>
+      <div class="manifesto-sub">ONEWAY — Zürich Oberland — seit 2024</div>
+    </div>
+
+    <footer>
+      <div class="f-logo">ONE<em>WAY</em></div>
+      <div class="f-tag">Worship · Input · Gemeinschaft</div>
+      <div class="f-copy">© 2026 ONEWAY</div>
+    </footer>
+  </div>
+
+  <!-- EVENTS -->
+  <div id="events" class="page">
+    <div class="ev-header">
+      <div class="evh-left">
+        <div class="evh-over">Alle Veranstaltungen</div>
+        <h1 class="evh-title">Kommende<br><i>Events</i></h1>
+      </div>
+      <div class="evh-right">
+        <div class="evh-stat">
+          <div class="evh-stat-num">3</div>
+          <div class="evh-stat-label">Events dieses Jahr</div>
+        </div>
+        <div class="evh-stat">
+          <div class="evh-stat-num">19:00</div>
+          <div class="evh-stat-label">Immer um diese Zeit</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ev-content">
+      <div class="ev-feature">
+        <div class="evf-visual">
+          <div class="evf-ghost">Big</div>
+          <div class="evf-badge">★ Highlight</div>
+        </div>
+        <div class="evf-info">
+          <div class="evf-date">1. Februar 2026</div>
+          <div class="evf-title">BIG WORSHIP NIGHT</div>
+          <div class="evf-body">Ein besonderer Abend mit ONEWAY, Aktion Kirchen Zürioberland und BRIGHTER.<br><br>18:00 Essen · 19:00 Start<br>FCGW, Guyerzellerstr. 2, 8620 Wetzikon</div>
+          <div class="evf-chips">
+            <span class="evf-chip">Aktion Kirchen</span>
+            <span class="evf-chip">ONEWAY</span>
+            <span class="evf-chip">BRIGHTER</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="ev-list">
+        <div class="ev-item">
+          <div class="evi-date"><div class="evi-d">26</div><div class="evi-m">Apr</div><div class="evi-y">2026</div></div>
+          <div class="evi-info">
+            <div class="evi-title">ONEWAY</div>
+            <div class="evi-meta"><span>19:00 Uhr</span><span>Ref. Kirche Gossau ZH</span></div>
+            <div class="evi-tags"><span class="eit eit-w">Worship</span><span class="eit eit-i">Input</span><span class="eit eit-g">Gemeinschaft</span></div>
+          </div>
+          <div class="evi-arr"><div class="ev-arrow">→</div></div>
+        </div>
+
+        <div class="ev-item c2">
+          <div class="evi-date"><div class="evi-d">29</div><div class="evi-m">Mrz</div><div class="evi-y">2026</div></div>
+          <div class="evi-info">
+            <div class="evi-title">ONEWAY</div>
+            <div class="evi-meta"><span>19:00 Uhr</span><span>FCGW Wetzikon</span></div>
+            <div class="evi-tags"><span class="eit eit-w">Worship</span><span class="eit eit-i">Input</span><span class="eit eit-g">Gemeinschaft</span></div>
+          </div>
+          <div class="evi-arr"><div class="ev-arrow">→</div></div>
+        </div>
+
+        <div class="ev-item c3">
+          <div class="evi-date"><div class="evi-d">01</div><div class="evi-m">Mrz</div><div class="evi-y">2026</div></div>
+          <div class="evi-info">
+            <div class="evi-title">ONEWAY</div>
+            <div class="evi-meta"><span>19:00 Uhr</span><span>Ref. Kirche Gossau ZH</span></div>
+            <div class="evi-tags"><span class="eit eit-w">Worship</span><span class="eit eit-i">Input</span><span class="eit eit-g">Gemeinschaft</span></div>
+          </div>
+          <div class="evi-arr"><div class="ev-arrow">→</div></div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <div class="f-logo">ONE<em>WAY</em></div>
+      <div class="f-tag">Worship · Input · Gemeinschaft</div>
+      <div class="f-copy">© 2026 ONEWAY</div>
+    </footer>
+  </div>
+
+  <!-- TEAM & VISION -->
+  <div id="team" class="page">
+    <div class="tm-header">
+      <div class="tm-header-inner">
+        <div class="tm-over">Wer wir sind</div>
+        <h1 class="tm-title">Team &<br><i>Vision</i></h1>
+        <p class="tm-kicker">Eine Bewegung für Gott im Zürich Oberland.</p>
+      </div>
+    </div>
+
+    <section class="vision-area">
+      <div class="va-label">Unsere Vision</div>
+      <div class="va-quote">„Jugendliche für Jesus begeistern – durch echten Worship, lebendigen Glauben und Gemeinschaft, die trägt."</div>
+      <div class="va-blocks">
+        <div class="va-block">
+          <div class="va-block-i">I</div>
+          <div class="va-block-name">Worship</div>
+          <div class="va-block-desc">Musik als Gebet. Raum für echte Begegnung mit Gott – jedes Mal neu.</div>
+        </div>
+        <div class="va-block">
+          <div class="va-block-i">II</div>
+          <div class="va-block-name">Input</div>
+          <div class="va-block-desc">Biblische Impulse, die fordern und befreien. Ehrlich, praxisnah, lebendig.</div>
+        </div>
+        <div class="va-block">
+          <div class="va-block-i">III</div>
+          <div class="va-block-name">Gemeinschaft</div>
+          <div class="va-block-desc">Freundschaften, die tragen. Hier darfst du einfach du sein.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="team-area">
+      <div class="ta-title">Das <em>Team</em></div>
+      <div class="ta-grid">
+        <div class="ta-card tc1">
+          <div class="tc-init">JK</div>
+          <div class="tc-info"><div class="tc-name">Jan K.</div><div class="tc-role">Leitung & Vision</div></div>
+        </div>
+        <div class="ta-card tc2">
+          <div class="tc-init">SM</div>
+          <div class="tc-info"><div class="tc-name">Sara M.</div><div class="tc-role">Worship</div></div>
+        </div>
+        <div class="ta-card tc3">
+          <div class="tc-init">LB</div>
+          <div class="tc-info"><div class="tc-name">Luca B.</div><div class="tc-role">Input & Predigt</div></div>
+        </div>
+        <div class="ta-card tc4">
+          <div class="tc-init">AV</div>
+          <div class="tc-info"><div class="tc-name">Anna V.</div><div class="tc-role">Organisation</div></div>
+        </div>
+        <div class="ta-card tc5">
+          <div class="tc-init">MR</div>
+          <div class="tc-info"><div class="tc-name">Mia R.</div><div class="tc-role">Kommunikation</div></div>
+        </div>
+        <div class="ta-card tc6">
+          <div class="tc-init">TN</div>
+          <div class="tc-info"><div class="tc-name">Tim N.</div><div class="tc-role">Technik & Media</div></div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="f-logo">ONE<em>WAY</em></div>
+      <div class="f-tag">Worship · Input · Gemeinschaft</div>
+      <div class="f-copy">© 2026 ONEWAY</div>
+    </footer>
+  </div>
+
+  <!-- KONTAKT -->
+  <div id="kontakt" class="page">
+    <div class="kt-bar">
+      <div class="kt-bar-ghost">Hallo</div>
+      <h1>Sag<span>Hallo.</span></h1>
+      <p>Fragen, Ideen, oder einfach ein kurzes Hi.</p>
+    </div>
+
+    <div class="kt-body">
+      <div class="kt-col1">
+        <div class="kt-col-title">Schreib <em>uns</em></div>
+        <div class="f-field"><label>Name</label><input type="text" placeholder="Dein Name"></div>
+        <div class="f-field"><label>E-Mail</label><input type="email" placeholder="deine@mail.ch"></div>
+        <div class="f-field"><label>Nachricht</label><textarea placeholder="Was möchtest du uns sagen?"></textarea></div>
+        <button class="f-submit">Absenden →</button>
+      </div>
+
+      <div class="kt-col2">
+        <div class="kt-col-title">Info</div>
+        <div class="ki-b">
+          <div class="ki-b-label">Ort</div>
+          <div class="ki-b-val">Ref. Kirche Gossau ZH</div>
+          <div class="ki-b-sub">Hauptstandort</div>
+        </div>
+        <div class="ki-b">
+          <div class="ki-b-label">Zeit</div>
+          <div class="ki-b-val">19:00 Uhr</div>
+          <div class="ki-b-sub">Türen ab 18:30</div>
+        </div>
+        <div class="ki-b">
+          <div class="ki-b-label">Eintritt</div>
+          <div class="ki-b-val">Kostenlos</div>
+          <div class="ki-b-sub">Alle sind willkommen</div>
+        </div>
+      </div>
+
+      <div class="kt-col3">
+        <div class="kt-col-title">Folge uns</div>
+        <div class="ki-d">
+          <div class="ki-d-label">Social Media</div>
+          <div class="ki-socials">
+            <button class="soc">Instagram</button>
+            <button class="soc">WhatsApp</button>
+            <button class="soc">E-Mail</button>
+          </div>
+        </div>
+        <div class="ki-d" style="margin-top:40px">
+          <div class="ki-d-label">Partner</div>
+          <div class="ki-d-val" style="font-size:16px;line-height:1.8">
+            Aktion Kirchen Zürioberland<br>
+            BRIGHTER Züri Oberland<br>
+            FCGW Wetzikon
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <div class="f-logo">ONE<em>WAY</em></div>
+      <div class="f-tag">Worship · Input · Gemeinschaft</div>
+      <div class="f-copy">© 2026 ONEWAY</div>
+    </footer>
+  </div>
+
+</div><!-- end #main -->
+
+<script>
+function go(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.sb-link').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const order = ['home','events','team','kontakt'];
+  document.querySelectorAll('.sb-link')[order.indexOf(id)].classList.add('active');
+  document.getElementById('main').scrollTo({ top: 0, behavior: 'smooth' });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>

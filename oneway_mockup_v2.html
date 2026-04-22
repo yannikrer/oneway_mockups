@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ONEWAY – Worship · Input · Gemeinschaft</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&family=Barlow+Condensed:wght@400;700;900&family=Lato:ital,wght@0,300;0,400;1,300&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sand:       #F0E6D0;
+  --sand-deep:  #E0CEB0;
+  --sand-pale:  #FAF5EC;
+  --sage:       #7A9E7E;
+  --sage-deep:  #4D6E51;
+  --sage-pale:  #C8DEC9;
+  --gold:       #C8943A;
+  --gold-light: #E8BA6A;
+  --gold-pale:  #F5E0B0;
+  --ink:        #1E1A14;
+  --ink-mid:    #3A3226;
+  --ink-soft:   #6A5E4E;
+  --white:      #FFFFFF;
+  --blush:      #E8C8B0;
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+
+body {
+  font-family: 'Lato', sans-serif;
+  background: var(--sand-pale);
+  color: var(--ink);
+  overflow-x: hidden;
+}
+
+/* scrollbar */
+::-webkit-scrollbar { width:6px; }
+::-webkit-scrollbar-track { background: var(--sand); }
+::-webkit-scrollbar-thumb { background: var(--sage); border-radius:3px; }
+
+/* ── NAV ─────────────────────────────────── */
+nav {
+  position: fixed; top:0; left:0; right:0; z-index:300;
+  height:70px;
+  display:flex; align-items:center; justify-content:space-between;
+  padding: 0 60px;
+  background: rgba(30,26,20,0.97);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(200,148,58,0.3);
+}
+.n-logo {
+  font-family: 'Playfair Display', serif;
+  font-weight:900; font-size:22px; letter-spacing:4px;
+  color: var(--white);
+}
+.n-logo em { color: var(--gold-light); font-style:normal; }
+.n-links { display:flex; gap:2px; }
+.n-btn {
+  background:none; border:none; cursor:pointer;
+  font-family:'Barlow Condensed',sans-serif; font-weight:700;
+  font-size:13px; letter-spacing:2.5px; text-transform:uppercase;
+  color:rgba(255,255,255,0.45);
+  padding:10px 22px; border-radius:2px;
+  transition: color .2s, background .2s;
+}
+.n-btn:hover { color:var(--gold-light); background:rgba(200,148,58,0.08); }
+.n-btn.active { color:var(--gold-light); background:rgba(200,148,58,0.12); }
+
+/* ── PAGE SHELL ───────────────────────────── */
+.page { display:none; }
+.page.active { display:block; }
+
+/* ════════════════════════════════════════════
+   HOME
+════════════════════════════════════════════ */
+
+/* HERO */
+.hero {
+  min-height: 100vh;
+  padding-top: 70px;
+  background: var(--ink);
+  position:relative; overflow:hidden;
+  display:flex; align-items:flex-end;
+}
+
+/* organic gradient mesh */
+.hero-mesh {
+  position:absolute; inset:0; pointer-events:none;
+}
+.mesh-blob {
+  position:absolute; border-radius:50%; filter:blur(90px);
+}
+.mb1 { width:700px; height:600px; top:-100px; right:-150px;
+        background:radial-gradient(circle, rgba(122,158,126,0.45), transparent 65%); }
+.mb2 { width:500px; height:400px; bottom:-50px; left:-80px;
+        background:radial-gradient(circle, rgba(200,148,58,0.3), transparent 65%); }
+.mb3 { width:350px; height:350px; top:40%; right:25%;
+        background:radial-gradient(circle, rgba(232,186,106,0.18), transparent 65%); }
+
+/* grain texture overlay */
+.hero-grain {
+  position:absolute; inset:0; pointer-events:none; opacity:.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-size: 200px;
+}
+
+/* big ghost letters */
+.hero-ghost {
+  position:absolute; right:-30px; top:50%; transform:translateY(-50%);
+  font-family:'Barlow Condensed',sans-serif; font-weight:900;
+  font-size:340px; line-height:1; letter-spacing:-10px;
+  color:rgba(255,255,255,0.025); pointer-events:none; white-space:nowrap;
+}
+
+.hero-inner {
+  position:relative; z-index:2;
+  padding:0 72px 90px;
+  width:100%;
+}
+.hero-eyebrow {
+  font-family:'Caveat',cursive; font-size:21px; font-weight:500;
+  color:var(--sage-pale); margin-bottom:14px; letter-spacing:.3px;
+}
+.hero-h1 {
+  font-family:'Playfair Display',serif;
+  font-weight:900; line-height:.88;
+}
+.hero-h1 .l1 {
+  display:block; font-size:clamp(72px, 12vw, 150px);
+  color:var(--white);
+}
+.hero-h1 .l2 {
+  display:block; font-size:clamp(72px, 12vw, 150px);
+  color:var(--gold-light);
+  font-style:italic;
+}
+.hero-rule {
+  width:80px; height:2px; background:var(--sage);
+  margin:28px 0;
+}
+.hero-tags {
+  display:flex; gap:12px; flex-wrap:wrap;
+}
+.htag {
+  font-family:'Barlow Condensed',sans-serif; font-weight:700;
+  font-size:12px; letter-spacing:3px; text-transform:uppercase;
+  padding:7px 18px; border-radius:1px;
+  border:1px solid rgba(255,255,255,0.18); color:rgba(255,255,255,0.65);
+  transition:all .2s;
+}
+.htag-sage  { border-color:var(--sage); color:var(--sage-pale); }
+.htag-gold  { border-color:var(--gold); color:var(--gold-light); }
+.hero-btns  { display:flex; gap:14px; margin-top:32px; }
+
+.btn {
+  font-family:'Barlow Condensed',sans-serif; font-weight:900;
+  font-size:14px; letter-spacing:2.5px; text-transform:uppercase;
+  padding:15px 44px; border:none; cursor:pointer; border-radius:2px;
+  transition:transform .15s, opacity .15s, box-shadow .15s;
+}
+.btn:hover { transform:translateY(-2px); opacity:.92; box-shadow:0 8px 24px rgba(0,0,0,.3); }
+.btn-sage  { background:var(--sage-deep); color:var(--white); }
+.btn-ghost { background:transparent; color:var(--white);
+             border:1.5px solid rgba(255,255,255,0.3); }
+.btn-ghost:hover { border-color:var(--gold-light); color:var(--gold-light); }
+.btn-gold  { background:var(--gold); color:var(--ink); }
+
+/* next event band */
+.ev-band {
+  background:var(--gold);
+  display:flex; align-items:center; justify-content:center; gap:48px;
+  padding:17px 72px; flex-wrap:wrap;
+}
+.evb-label {
+  font-family:'Barlow Condensed',sans-serif; font-weight:700;
+  font-size:10px; letter-spacing:5px; text-transform:uppercase;
+  color:rgba(30,26,20,.6);
+}
+.evb-date {
+  font-family:'Playfair Display',serif; font-weight:700;
+  font-size:32px; color:var(--ink);
+}
+.evb-loc {
+  font-size:14px; color:rgba(30,26,20,.65); font-style:italic;
+}
+.btn-ink {
+  background:var(--ink); color:var(--gold-light);
+  font-family:'Barlow Condensed',sans-serif; font-weight:900;
+  font-size:13px; letter-spacing:2px; text-transform:uppercase;
+  padding:10px 28px; border:none; cursor:pointer; border-radius:2px;
+  transition:opacity .2s;
+}
+.btn-ink:hover { opacity:.8; }
+
+/* gallery */
+.gallery-section {
+  padding:88px 72px;
+  background:var(--sand-pale);
+}
+.sh {
+  display:flex; align-items:baseline; gap:24px; margin-bottom:44px;
+}
+.sh-title {
+  font-family:'Playfair Display',serif; font-weight:700;
+  font-size:52px; color:var(--ink);
+}
+.sh-title em { color:var(--sage-deep); font-style:italic; }
+.sh-line { flex:1; height:1px; background:var(--sand-deep); margin-bottom:8px; }
+
+.gal {
+  display:grid;
+  grid-template-columns:2.2fr 1fr 1fr;
+  grid-template-rows:210px 210px;
+  gap:10px;
+}
+.gc { border-radius:8px; overflow:hidden; cursor:pointer; position:relative; }
+.gc:hover .gc-inner { transform:scale(1.04); }
+.gc:first-child { grid-row:1/3; }
+.gc-inner {
+  width:100%; height:100%; transition:transform .4s cubic-bezier(.25,.46,.45,.94);
+  position:relative; display:flex; align-items:center; justify-content:center;
+}
+.g1 .gc-inner { background:linear-gradient(145deg,var(--ink) 0%,var(--sage-deep) 100%); }
+.g2 .gc-inner { background:linear-gradient(145deg,var(--sage-deep) 0%,var(--sage) 100%); }
+.g3 .gc-inner { background:linear-gradient(145deg,var(--gold) 0%,var(--blush) 100%); }
+.g4 .gc-inner { background:linear-gradient(145deg,var(--ink-mid) 0%,var(--ink) 100%); }
+.g5 .gc-inner { background:linear-gradient(145deg,var(--sage) 0%,var(--sage-pale) 100%); }
+.gc-ghost {
+  position:absolute; font-family:'Playfair Display',serif; font-weight:900;
+  font-size:90px; color:rgba(255,255,255,0.08); text-align:center; pointer-events:none;
+  font-style:italic;
+}
+.gc-label {
+  position:absolute; bottom:14px; left:14px;
+  font-family:'Barlow Condensed',sans-serif; font-weight:700;
+  font-size:11px; letter-spacing:2px; text-transform:uppercase;
+  color:var(--gold-light); background:rgba(0,0,0,.5); padding:5px 12px; border-radius:2px;
+  opacity:0; transition:opacity .25s;
+}
+.gc:hover .gc-label { opacity:1; }
+
+/* welcome split */
+.welcome {
+  display:grid; grid-template-columns:1fr 1fr;
+  background:var(--ink);
+}
+.wl-text { padding:88px 72px; }
+.wl-kicker {
+  font-family:'Caveat',cursive; font-size:20px;
+  color:var(--sage-pale); margin-bottom:14px;
+}
+.wl-h2 {
+  font-family:'Playfair Display',serif; font-weight:700;
+  font-size:52px; line-height:1; color:var(--white);
+}
+.wl-h2 span { color:var(--gold-light); font-style:italic; display:block; }
+.wl-p {
+  font-size:15px; line-height:1.8; color:rgba(255,255,255,.55);
+  margin-top:22px; max-width:440px; font-weight:300;
+}
+.wl-pillars { border-left:1px solid rgba(255,255,255,.08); }
+.wl-pill {
+  padding:44px 60px; border-bottom:1px solid rgba(255,255,255,.06);
+  transition:background .2s;
+}
+.wl-pill:hover { background:rgba(255,255,255,.03); }
+.wl-pill-n {
+  font-family:'Barlow Condensed',sans-serif; font-weight:700;
+  font-size:10px; letter-spacing:5px; text-transform:uppercase;
+  color:var(--sage-pale); margin-bottom:6px;
+}
+.wl-pill-name {
+  font-family:'Playfair Display',serif; font-weight:700;
+  font-size:38px; color:var(--white); line-height:1;
+}
+.wl-pill-name em { color:var(--gold-light); font-style:italic; }
+.wl-pill-desc {
+  font-size:14px; color:rgba(255,255,255,.45); margin-top:8px; line-height:1.65; font-weight:300;
+}
+
+
+/* ════════════════════════════════════════════
+   EVENTS
+════════════════════════════════════════════ */
+#events { background:var(--sand-pale); }
+
+.ev-hero {
+  padding-top:70px;
+  background:var(--ink);
+  padding-bottom:64px; padding-left:72px; padding-right:72px;
+  position:relative; overflow:hidden;
+}
+.ev-hero::before {
+  content:'EVENTS';
+  position:absolute; right:-30px; bottom:-50px;
+  font-family:'Barlow Condensed',sans-serif; font-weight:900;
+  font-size:200px; color:rgba(255,255,255,0.03); line-height:1; pointer-events:none;
+}
+.ev-hero h1 {
+  font-family:'Playfair Display',serif; font-weight:700;
+  font-size:84px; line-height:.9; color:var(--white); margin-top:44px;
+}
+.ev-hero h1 i { color:var(--gold-light); }
+.ev-hero p {
+  font-family:'Caveat',cursive; font-size:20px;
+  color:rgba(255,255,255,.5); margin-top:14px;
+}
+
+.ev-body { padding:64px 72px; }
+
+/* big card */
+.big-card {
+  background:linear-gradient(135deg, var(--sage-deep) 0%, #2a4a2e 100%);
+  border-radius:10px; padding:52px 60px; margin-bottom:20px;
+  position:relative; overflow:hidden; cursor:pointer;
+  transition:transform .22s, box-shadow .22s;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.18);
+}
+.big-card:hover { transform:translateY(-5px); box-shadow:0 16px 48px rgba(0,0,0,0.28); }
+.bc-label {
+  font-family:'Barlow Condensed',sans-serif; font-weight:700;
+  font-size:10px; letter-spacing:5px; text-transform:uppercase;
+  color:var(--gold-light); margin-bottom:16px;
+}
+.bc-title {
+  font-family:'Playfair Display',serif; font-weight:700;
+  font-size:68px; line-height:.9; color:var(--white);
+}
+.bc-date {
+  font-family:'Playfair Display',serif; font-weight:700;
+  font-size:26px; color:var(--gold-light); margin-top:22px; font-style:italic;
+}
+.bc-loc { font-size:14px; color:rgba(255,255,255,.5); margin-top:6px; font-weight:300; }
+.bc-chips { display:flex; gap:10px; margin-top:22px; flex-wrap:wrap; }
+.bc-chip {
+  background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.18);
+  border-radius:2px; padding:4px 14px;
+  font-family:'Barlow Condensed',sans-serif; font-weight:700;
+  font-size:11px; letter-spacing:2px; text-transform:uppercase;
+  color:rgba(255,255,255,.75);
+}
+.bc-ghost {
+  position:absolute; right:-20px; bottom:-50px;
+  font-family:'Playfair Display',serif; font-weight:900;
+  font-size:180px; color:rgba(255,255,255,.04); line-height:1; pointer-events:none;
+  font-style:italic;
+}
+
+/* event row cards */
+.ev-row {
+  display:grid; grid-template-columns:108px 1fr auto;
+  background:var(--white); border-radius:8px;
+  overflow:hidden; margin-bottom:12px; cursor:pointer;
+  box-shadow:0 2px 16px rgba(30,26,20,0.08);
+  transition:transform .15s, box-shadow .15s;
+}
+.ev-row:hover { transform:translateX(8px); box-shadow:0 6px 28px rgba(30,26,20,0.14); }
+.ev-row-date {
+  background:var(--sage-deep); display:flex; flex-direction:column;
+  align-items:center; justify-content:center; padding:24px 10px;
+}
+.ev-row.alt1 .ev-row-date { background:var(--ink-mid); }
+.ev-row.alt2 .ev-row-date { background:var(--gold); }
+.ev-row.alt2 .ev-day { color:var(--ink) !important; }
+.ev-row.alt2 .ev-mon { color:var(--ink-soft) !important; }
+.ev-day {
+  font-family:'Playfair Display',serif; font-weight:700;
+  font-size:44px; line-height:1; color:var(--white);
+}
+.ev-mon {
+  font-family:'Barlow Condensed',sans-serif; font-weight:700;
+  font-size:12px; letter-spacing:2px; text-transform:uppercase;
+  color:var(--gold-pale);
+}
+.ev-yr { font-size:10px; color:rgba(255,255,255,.4); margin-top:2px; }
+.ev-info { padding:22px 32px; }
+.ev-title {
+  font-family:'Playfair Display',serif; font-weight:700;
+  font-size:30px; color:var(--ink); letter-spacing:-.3px;
+}
+.ev-meta { display:flex; gap:20px; flex-wrap:wrap; margin-top:7px; }
+.ev-meta span {
+  font-size:13px; color:var(--ink-soft);
+  display:flex; align-items:center; gap:7px;
+}
+.ev-meta span::before {
+  content:''; width:5px; height:5px; border-radius:50%;
+  background:var(--sage); flex-shrink:0;
+}
+.ev-tags { display:flex; gap:7px; margin-top:10px; flex-wrap:wrap; }
+.et {
+  font-family:'Barlow Condensed',sans-serif; font-weight:700;
+  font-size:10px; letter-spacing:2px; text-transform:uppercase;
+  padding:3px 11px; border-radius:2px;
+}
+.et-w { background:rgba(77,110,81,.12); color:var(--sage-deep); }
+.et-i { background:rgba(200,148,58,.14); color:#7a5010; }
+.et-g { background:rgba(30,26,20,.07); color:var(--ink-mid); }
+.ev-arr { padding:22px 28px; display:flex; align-items:center; justify-content:center; }
+.arr-c {
+  width:42px; height:42px; border:1.5px solid var(--sand-deep);
+  border-radius:50%; display:flex; align-items:center; justify-content:center;
+  font-size:17px; color:var(--sage); transition:all .2s;
+}
+.ev-row:hover .arr-c { border-color:var(--sage-deep); background:var(--sage-deep); color:var(--white); }
+
+
+/* ════════════════════════════════════════════
+   TEAM & VISION
+════════════════════════════════════════════ */
+#team { background:var(--sand-pale); }
+
+.t-hero {
+  padding-top:70px;
+  background:var(--sand);
+  padding-bottom:60px; padding-left:72px; padding-right:72px;
+  position:relative; overflow:hidden;
+  border-bottom:1px solid var(--sand-deep);
+}
+.t-hero::before {
+  content:'TEAM';
+  position:absolute; right:40px; bottom:-40px;
+  font-family:'Playfair Display',serif; font-weight:900; font-style:italic;
+  font-size:240px; color:rgba(77,110,81,0.06); line-height:1; pointer-events:none;
+}
+.t-hero h1 {
+  font-family:'Playfair Display',serif; font-weight:700;
+  font-size:88px; line-height:.88; color:var(--ink); margin-top:44px;
+}
+.t-hero h1 em { color:var(--sage-deep); font-style:italic; }
+.t-hero .tk {
+  font-family:'Caveat',cursive; font-size:21px;
+  color:var(--sage-deep); margin-top:14px;
+}
+
+/* vision strip */
+.vis-strip {
+  background:var(--sage-deep);
+  padding:80px 72px;
+}
+.vs-label {
+  font-family:'Barlow Condensed',sans-serif; font-weight:700;
+  font-size:10px; letter-spacing:5px; text-transform:uppercase;
+  color:var(--gold-light); margin-bottom:22px;
+}
+.vs-quote {
+  font-family:'Playfair Display',serif; font-weight:700; font-style:italic;
+  font-size:48px; line-height:1.1; color:var(--white); max-width:760px;
+}
+.vs-pillars {
+  display:grid; grid-template-columns:repeat(3,1fr); gap:2px; margin-top:56px;
+}
+.vsp {
+  background:rgba(0,0,0,.18); padding:44px 38px;
+  border-top:3px solid transparent; transition:border-color .2s, background .2s;
+}
+.vsp:hover { border-color:var(--gold-light); background:rgba(0,0,0,.28); }
+.vsp-num {
+  font-family:'Playfair Display',serif; font-weight:700; font-style:italic;
+  font-size:60px; color:rgba(255,255,255,.1); line-height:1;
+}
+.vsp-name {
+  font-family:'Playfair Display',serif; font-weight:700;
+  font-size:34px; color:var(--gold-light); margin-top:-6px;
+}
+.vsp-desc { font-size:14px; color:rgba(255,255,255,.55); margin-top:10px; line-height:1.7; font-weight:300; }
+
+/* team grid */
+.t-grid-wrap {
+  padding:80px 72px;
+  background:var(--sand-pale);
+}
+.t-grid {
+  display:grid; grid-template-columns:repeat(4,1fr); gap:22px; margin-top:40px;
+}
+.tm {
+  transition:transform .3s;
+}
+.tm:hover { transform:translateY(-8px); }
+.tm-card {
+  aspect-ratio:3/4; border-radius:10px; overflow:hidden;
+  position:relative; display:flex; align-items:flex-end; padding:18px;
+  box-shadow:0 4px 20px rgba(30,26,20,0.12);
+}
+.tmc1 { background:linear-gradient(160deg,var(--ink) 0%,var(--sage-deep) 100%); }
+.tmc2 { background:linear-gradient(160deg,var(--sage-deep) 0%,var(--sage) 100%); }
+.tmc3 { background:linear-gradient(160deg,var(--ink-mid) 0%,var(--gold) 100%); }
+.tmc4 { background:linear-gradient(160deg,var(--sage) 0%,var(--sage-pale) 100%); }
+.tm-init {
+  position:absolute; top:50%; left:50%; transform:translate(-50%,-60%);
+  font-family:'Playfair Display',serif; font-weight:700; font-style:italic;
+  font-size:72px; color:rgba(255,255,255,.12);
+}
+.tm-info { position:relative; z-index:1; }
+.tm-name {
+  font-family:'Playfair Display',serif; font-weight:700;
+  font-size:22px; color:var(--white); line-height:1.1;
+}
+.tm-role {
+  font-family:'Caveat',cursive; font-size:15px;
+  color:var(--gold-light); margin-top:2px;
+}
+.tm-desc {
+  font-size:13px; color:var(--ink-soft); line-height:1.65;
+  margin-top:12px; font-weight:300;
+}
+
+
+/* ════════════════════════════════════════════
+   KONTAKT
+════════════════════════════════════════════ */
+#kontakt { background:var(--sand-pale); }
+
+.kt-hero {
+  padding-top:70px;
+  background:var(--ink);
+  padding-bottom:64px; padding-left:72px; padding-right:72px;
+  position:relative; overflow:hidden;
+}
+.kt-hero::before {
+  content:'HI';
+  position:absolute; right:-10px; bottom:-60px;
+  font-family:'Playfair Display',serif; font-weight:900; font-style:italic;
+  font-size:320px; color:rgba(255,255,255,0.03); line-height:1; pointer-events:none;
+}
+/* gold diagonal accent */
+.kt-hero::after {
+  content:'';
+  position:absolute; top:0; right:0; bottom:0; width:6px;
+  background:linear-gradient(to bottom, var(--gold), var(--sage-deep));
+}
+.kt-hero h1 {
+  font-family:'Playfair Display',serif; font-weight:700;
+  font-size:96px; line-height:.85; color:var(--white); margin-top:44px;
+}
+.kt-hero h1 i { color:var(--gold-light); }
+.kt-hero p {
+  font-family:'Caveat',cursive; font-size:21px;
+  color:rgba(255,255,255,.5); margin-top:16px;
+}
+
+.kt-body { display:grid; grid-template-columns:1fr 1fr; }
+
+.kf { padding:80px 72px; background:var(--sand-pale); }
+.kf-title {
+  font-family:'Playfair Display',serif; font-weight:700;
+  font-size:46px; color:var(--ink); margin-bottom:40px;
+}
+.kf-title em { color:var(--sage-deep); font-style:italic; }
+.kf-field { margin-bottom:26px; }
+.kf-field label {
+  display:block;
+  font-family:'Barlow Condensed',sans-serif; font-weight:700;
+  font-size:10px; letter-spacing:3.5px; text-transform:uppercase;
+  color:var(--sage-deep); margin-bottom:8px;
+}
+.kf-field input, .kf-field textarea {
+  width:100%; background:var(--white);
+  border:1.5px solid var(--sand-deep);
+  color:var(--ink); font-family:'Lato',sans-serif; font-size:15px; font-weight:300;
+  padding:14px 18px; border-radius:4px; outline:none;
+  transition:border-color .2s, box-shadow .2s;
+}
+.kf-field input:focus, .kf-field textarea:focus {
+  border-color:var(--sage-deep);
+  box-shadow:0 0 0 3px rgba(77,110,81,0.1);
+}
+.kf-field textarea { resize:none; height:130px; }
+.kf-submit {
+  width:100%; background:var(--sage-deep); color:var(--white); border:none;
+  font-family:'Barlow Condensed',sans-serif; font-weight:900;
+  font-size:15px; letter-spacing:3px; text-transform:uppercase;
+  padding:18px 44px; cursor:pointer; border-radius:4px;
+  transition:background .2s, transform .15s;
+}
+.kf-submit:hover { background:var(--ink); transform:translateY(-2px); }
+
+.ki {
+  padding:80px 64px;
+  background:var(--sand);
+  border-left:1px solid var(--sand-deep);
+}
+.ki-title {
+  font-family:'Playfair Display',serif; font-weight:700;
+  font-size:46px; color:var(--ink); margin-bottom:48px;
+}
+.ki-block { margin-bottom:44px; }
+.ki-lbl {
+  font-family:'Barlow Condensed',sans-serif; font-weight:700;
+  font-size:10px; letter-spacing:4px; text-transform:uppercase;
+  color:var(--sage-deep); margin-bottom:9px;
+}
+.ki-lbl::before {
+  content:'— ';
+}
+.ki-val {
+  font-family:'Playfair Display',serif; font-weight:700;
+  font-size:26px; color:var(--ink);
+}
+.ki-sub { font-size:13px; color:var(--ink-soft); margin-top:4px; font-weight:300; font-style:italic; }
+.ki-socials { display:flex; gap:10px; flex-wrap:wrap; margin-top:14px; }
+.s-btn {
+  background:var(--white); border:1px solid var(--sand-deep);
+  color:var(--ink-mid); font-family:'Barlow Condensed',sans-serif;
+  font-weight:700; font-size:11px; letter-spacing:2px; text-transform:uppercase;
+  padding:10px 22px; border-radius:3px; cursor:pointer;
+  transition:background .2s, border-color .2s, color .2s;
+}
+.s-btn:hover { background:var(--sage-deep); border-color:var(--sage-deep); color:var(--white); }
+
+/* footer */
+footer {
+  background:var(--ink);
+  border-top:2px solid var(--gold);
+  padding:28px 72px;
+  display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;
+}
+.f-logo {
+  font-family:'Playfair Display',serif; font-weight:700; font-style:italic;
+  font-size:22px; letter-spacing:2px; color:var(--white);
+}
+.f-logo em { color:var(--gold-light); font-style:normal; }
+.f-tag { font-family:'Caveat',cursive; font-size:18px; color:var(--sage-pale); }
+.f-copy { font-size:12px; color:rgba(255,255,255,.28); font-weight:300; }
+
+/* fade-in animation */
+@keyframes rise {
+  from { opacity:0; transform:translateY(28px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+.page.active .hero-eyebrow { animation:rise .4s ease both .05s; }
+.page.active .hero-h1      { animation:rise .5s ease both .1s; }
+.page.active .hero-rule    { animation:rise .4s ease both .2s; }
+.page.active .hero-tags    { animation:rise .4s ease both .25s; }
+.page.active .hero-btns    { animation:rise .4s ease both .32s; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="n-logo">ONE<em>WAY</em></div>
+  <div class="n-links">
+    <button class="n-btn active" onclick="go('home')">Home</button>
+    <button class="n-btn" onclick="go('events')">Events</button>
+    <button class="n-btn" onclick="go('team')">Team &amp; Vision</button>
+    <button class="n-btn" onclick="go('kontakt')">Kontakt</button>
+  </div>
+</nav>
+
+
+<!-- ══ HOME ══════════════════════════════════ -->
+<div id="home" class="page active">
+
+  <section class="hero">
+    <div class="hero-mesh">
+      <div class="mesh-blob mb1"></div>
+      <div class="mesh-blob mb2"></div>
+      <div class="mesh-blob mb3"></div>
+    </div>
+    <div class="hero-grain"></div>
+    <div class="hero-ghost">ONEWAY</div>
+    <div class="hero-inner">
+      <div class="hero-eyebrow">Willkommen bei</div>
+      <h1 class="hero-h1">
+        <span class="l1">ONE</span>
+        <span class="l2">WAY</span>
+      </h1>
+      <div class="hero-rule"></div>
+      <div class="hero-tags">
+        <span class="htag htag-sage">Worship</span>
+        <span class="htag htag-gold">Input</span>
+        <span class="htag">Gemeinschaft</span>
+      </div>
+      <div class="hero-btns">
+        <button class="btn btn-sage" onclick="go('events')">Nächste Events</button>
+        <button class="btn btn-ghost" onclick="go('team')">Über uns</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="ev-band">
+    <span class="evb-label">Nächstes Event</span>
+    <span class="evb-date">26. April 2026</span>
+    <span class="evb-loc">19:00 · Ref. Kirche Gossau ZH</span>
+    <button class="btn-ink" onclick="go('events')">Details →</button>
+  </div>
+
+  <section class="gallery-section">
+    <div class="sh">
+      <div class="sh-title">Galerie <em>&amp; Impressionen</em></div>
+      <div class="sh-line"></div>
+    </div>
+    <div class="gal">
+      <div class="gc g1">
+        <div class="gc-inner">
+          <span class="gc-ghost">ONE WAY</span>
+          <div class="gc-label">Worship Night</div>
+        </div>
+      </div>
+      <div class="gc g2">
+        <div class="gc-inner">
+          <span class="gc-ghost">29.3</span>
+          <div class="gc-label">29.3.26 · FCGW</div>
+        </div>
+      </div>
+      <div class="gc g3">
+        <div class="gc-inner">
+          <span class="gc-ghost">BIG</span>
+          <div class="gc-label">Big Worship Night</div>
+        </div>
+      </div>
+      <div class="gc g4">
+        <div class="gc-inner">
+          <span class="gc-ghost">1.3</span>
+          <div class="gc-label">1.3.26 · Gossau</div>
+        </div>
+      </div>
+      <div class="gc g5">
+        <div class="gc-inner">
+          <span class="gc-ghost">Praise</span>
+          <div class="gc-label">Gemeinschaft</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="welcome">
+    <div class="wl-text">
+      <div class="wl-kicker">Was ist ONEWAY?</div>
+      <h2 class="wl-h2">Ein Abend,<span>der bewegt.</span></h2>
+      <p class="wl-p">ONEWAY ist ein Jugend-Gottesdienstformat in der Region Zürich Oberland. Regelmässig treffen wir uns – für echte Anbetung, frische Impulse aus der Bibel und Gemeinschaft, die trägt. Alle sind willkommen.</p>
+    </div>
+    <div class="wl-pillars">
+      <div class="wl-pill">
+        <div class="wl-pill-n">01 —</div>
+        <div class="wl-pill-name"><em>Worship</em></div>
+        <div class="wl-pill-desc">Gemeinsam Gott begegnen. Musik, die den Raum öffnet für echte Anbetung.</div>
+      </div>
+      <div class="wl-pill">
+        <div class="wl-pill-n">02 —</div>
+        <div class="wl-pill-name"><em>Input</em></div>
+        <div class="wl-pill-desc">Lebendige Impulse aus der Bibel – ehrlich, praxisnah und relevant.</div>
+      </div>
+      <div class="wl-pill">
+        <div class="wl-pill-n">03 —</div>
+        <div class="wl-pill-name"><em>Gemeinschaft</em></div>
+        <div class="wl-pill-desc">Ein Ort, wo du dazugehörst. Echte Verbindungen entstehen hier.</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="f-logo">ONE<em>WAY</em></div>
+    <div class="f-tag">Worship · Input · Gemeinschaft</div>
+    <div class="f-copy">© 2026 ONEWAY — Gossau ZH</div>
+  </footer>
+</div>
+
+
+<!-- ══ EVENTS ════════════════════════════════ -->
+<div id="events" class="page">
+
+  <section class="ev-hero">
+    <h1>Kommende<br><i>Events</i></h1>
+    <p>Sei dabei – es lohnt sich.</p>
+  </section>
+
+  <div class="ev-body">
+
+    <div class="big-card">
+      <div class="bc-label">★ Highlight Event</div>
+      <div class="bc-title">BIG WORSHIP<br>NIGHT</div>
+      <div class="bc-date">1. Februar 2026</div>
+      <div class="bc-loc">18:00 Essen · 19:00 Start — FCGW, Guyerzellerstr. 2, 8620 Wetzikon</div>
+      <div class="bc-chips">
+        <span class="bc-chip">Aktion Kirchen Zürioberland</span>
+        <span class="bc-chip">ONEWAY</span>
+        <span class="bc-chip">BRIGHTER Züri Oberland</span>
+      </div>
+      <div class="bc-ghost">Big</div>
+    </div>
+
+    <div class="ev-row">
+      <div class="ev-row-date">
+        <div class="ev-day">26</div>
+        <div class="ev-mon">Apr</div>
+        <div class="ev-yr">2026</div>
+      </div>
+      <div class="ev-info">
+        <div class="ev-title">ONEWAY</div>
+        <div class="ev-meta"><span>19:00 Uhr</span><span>Ref. Kirche Gossau ZH</span></div>
+        <div class="ev-tags">
+          <span class="et et-w">Worship</span>
+          <span class="et et-i">Input</span>
+          <span class="et et-g">Gemeinschaft</span>
+        </div>
+      </div>
+      <div class="ev-arr"><div class="arr-c">→</div></div>
+    </div>
+
+    <div class="ev-row alt1">
+      <div class="ev-row-date">
+        <div class="ev-day">29</div>
+        <div class="ev-mon">Mrz</div>
+        <div class="ev-yr">2026</div>
+      </div>
+      <div class="ev-info">
+        <div class="ev-title">ONEWAY</div>
+        <div class="ev-meta"><span>19:00 Uhr</span><span>FCGW Wetzikon</span></div>
+        <div class="ev-tags">
+          <span class="et et-w">Worship</span>
+          <span class="et et-i">Input</span>
+          <span class="et et-g">Gemeinschaft</span>
+        </div>
+      </div>
+      <div class="ev-arr"><div class="arr-c">→</div></div>
+    </div>
+
+    <div class="ev-row alt2">
+      <div class="ev-row-date">
+        <div class="ev-day">01</div>
+        <div class="ev-mon">Mrz</div>
+        <div class="ev-yr">2026</div>
+      </div>
+      <div class="ev-info">
+        <div class="ev-title">ONEWAY</div>
+        <div class="ev-meta"><span>19:00 Uhr</span><span>Ref. Kirche Gossau ZH</span></div>
+        <div class="ev-tags">
+          <span class="et et-w">Worship</span>
+          <span class="et et-i">Input</span>
+          <span class="et et-g">Gemeinschaft</span>
+        </div>
+      </div>
+      <div class="ev-arr"><div class="arr-c">→</div></div>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="f-logo">ONE<em>WAY</em></div>
+    <div class="f-tag">Worship · Input · Gemeinschaft</div>
+    <div class="f-copy">© 2026 ONEWAY — Gossau ZH</div>
+  </footer>
+</div>
+
+
+<!-- ══ TEAM & VISION ═════════════════════════ -->
+<div id="team" class="page">
+
+  <section class="t-hero">
+    <h1>Wir sind<br><em>ONEWAY</em></h1>
+    <p class="tk">Eine Bewegung für Gott im Zürich Oberland.</p>
+  </section>
+
+  <section class="vis-strip">
+    <div class="vs-label">Unsere Vision</div>
+    <div class="vs-quote">
+      „Jugendliche für Jesus begeistern – durch echten Worship, lebendigen Glauben und Gemeinschaft, die trägt."
+    </div>
+    <div class="vs-pillars">
+      <div class="vsp">
+        <div class="vsp-num">I</div>
+        <div class="vsp-name">Worship</div>
+        <div class="vsp-desc">Musik als Gebet. Raum für echte Begegnung mit Gott – jedes Mal neu.</div>
+      </div>
+      <div class="vsp">
+        <div class="vsp-num">II</div>
+        <div class="vsp-name">Input</div>
+        <div class="vsp-desc">Biblische Impulse, die fordern und befreien. Ehrlich, praxisnah, lebendig.</div>
+      </div>
+      <div class="vsp">
+        <div class="vsp-num">III</div>
+        <div class="vsp-name">Gemeinschaft</div>
+        <div class="vsp-desc">Freundschaften, die tragen. Hier darfst du einfach du sein.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="t-grid-wrap">
+    <div class="sh">
+      <div class="sh-title">Das <em>Team</em></div>
+      <div class="sh-line"></div>
+    </div>
+    <div class="t-grid">
+      <div class="tm">
+        <div class="tm-card tmc1">
+          <div class="tm-init">JK</div>
+          <div class="tm-info">
+            <div class="tm-name">Jan K.</div>
+            <div class="tm-role">Leitung & Vision</div>
+          </div>
+        </div>
+        <p class="tm-desc">Brennt dafür, dass Jugendliche Jesus kennenlernen und echte Gemeinschaft erleben.</p>
+      </div>
+      <div class="tm">
+        <div class="tm-card tmc2">
+          <div class="tm-init">SM</div>
+          <div class="tm-info">
+            <div class="tm-name">Sara M.</div>
+            <div class="tm-role">Worship</div>
+          </div>
+        </div>
+        <p class="tm-desc">Leiterin des Worship-Teams. Musik ist für sie Gebet und Einladung zugleich.</p>
+      </div>
+      <div class="tm">
+        <div class="tm-card tmc3">
+          <div class="tm-init">LB</div>
+          <div class="tm-info">
+            <div class="tm-name">Luca B.</div>
+            <div class="tm-role">Input & Predigt</div>
+          </div>
+        </div>
+        <p class="tm-desc">Liebt es, Bibeltexte lebendig und relevant zu machen – direkt und praxisnah.</p>
+      </div>
+      <div class="tm">
+        <div class="tm-card tmc4">
+          <div class="tm-init">AV</div>
+          <div class="tm-info">
+            <div class="tm-name">Anna V.</div>
+            <div class="tm-role">Organisation</div>
+          </div>
+        </div>
+        <p class="tm-desc">Hält alles zusammen. Koordiniert Orte und Abläufe, damit jeder Abend reibungslos läuft.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="f-logo">ONE<em>WAY</em></div>
+    <div class="f-tag">Worship · Input · Gemeinschaft</div>
+    <div class="f-copy">© 2026 ONEWAY — Gossau ZH</div>
+  </footer>
+</div>
+
+
+<!-- ══ KONTAKT ═══════════════════════════════ -->
+<div id="kontakt" class="page">
+
+  <section class="kt-hero">
+    <h1>SAG<br><i>HALLO.</i></h1>
+    <p>Fragen, Ideen oder einfach ein kurzes Hi – wir freuen uns!</p>
+  </section>
+
+  <div class="kt-body">
+    <div class="kf">
+      <div class="kf-title">Schreib <em>uns</em></div>
+      <div class="kf-field">
+        <label>Name</label>
+        <input type="text" placeholder="Dein Name">
+      </div>
+      <div class="kf-field">
+        <label>E-Mail</label>
+        <input type="email" placeholder="deine@mail.ch">
+      </div>
+      <div class="kf-field">
+        <label>Nachricht</label>
+        <textarea placeholder="Was möchtest du uns sagen?"></textarea>
+      </div>
+      <button class="kf-submit">Absenden →</button>
+    </div>
+
+    <div class="ki">
+      <div class="ki-title">Info</div>
+      <div class="ki-block">
+        <div class="ki-lbl">Hauptveranstaltungsort</div>
+        <div class="ki-val">Ref. Kirche Gossau ZH</div>
+        <div class="ki-sub">Hauptstandort der regulären ONEWAY Abende</div>
+      </div>
+      <div class="ki-block">
+        <div class="ki-lbl">Uhrzeit</div>
+        <div class="ki-val">19:00 Uhr</div>
+        <div class="ki-sub">Türen offen ab ca. 18:30</div>
+      </div>
+      <div class="ki-block">
+        <div class="ki-lbl">Eintritt</div>
+        <div class="ki-val">Kostenlos</div>
+        <div class="ki-sub">Alle sind herzlich willkommen</div>
+      </div>
+      <div class="ki-block">
+        <div class="ki-lbl">Folge uns</div>
+        <div class="ki-socials">
+          <button class="s-btn">Instagram</button>
+          <button class="s-btn">WhatsApp</button>
+          <button class="s-btn">E-Mail</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="f-logo">ONE<em>WAY</em></div>
+    <div class="f-tag">Worship · Input · Gemeinschaft</div>
+    <div class="f-copy">© 2026 ONEWAY — Gossau ZH</div>
+  </footer>
+</div>
+
+
+<script>
+  function go(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.n-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    const order = ['home','events','team','kontakt'];
+    document.querySelectorAll('.n-btn')[order.indexOf(id)].classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+</body>
+</html>
